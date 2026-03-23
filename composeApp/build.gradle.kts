@@ -93,8 +93,25 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.messenger.sirium"
+            packageName = "Sirium"
             packageVersion = "1.0.0"
+
+            windows {
+                iconFile.set(project.file("media/icons/ic_windows.ico"))
+                menuGroup = "Sirium"
+                dirChooser = true
+                shortcut = true
+                menu = true
+            }
+
+            macOS {
+                iconFile.set(project.file("media/icons/ic_mac_os.icns"))
+                bundleID = "com.example.myapp"
+            }
+
+            linux {
+                iconFile.set(project.file("scr/main/res/drawable/ic_linux.png"))
+            }
         }
     }
 }
