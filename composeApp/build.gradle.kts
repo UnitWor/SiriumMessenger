@@ -110,7 +110,7 @@ compose.desktop {
             }
 
             linux {
-                iconFile.set(project.file("scr/main/res/drawable/ic_linux.png"))
+                iconFile.set(project.file("media/icons/ic_linux.png"))
             }
         }
     }
