@@ -16,16 +16,6 @@ kotlin {
         }
     }
     
-    listOf(
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
-        }
-    }
-    
     jvm()
     
     sourceSets {
@@ -102,15 +92,6 @@ compose.desktop {
                 dirChooser = true
                 shortcut = true
                 menu = true
-            }
-
-            macOS {
-                iconFile.set(project.file("media/icons/ic_mac_os.icns"))
-                bundleID = "com.example.myapp"
-            }
-
-            linux {
-                iconFile.set(project.file("media/icons/ic_linux.png"))
             }
         }
     }
