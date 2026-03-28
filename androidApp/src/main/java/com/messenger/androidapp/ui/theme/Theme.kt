@@ -9,6 +9,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import com.messenger.androidapp.ui.theme.color.DarkSiriumColor
 import com.messenger.androidapp.ui.theme.color.LightSiriumColor
 import com.messenger.androidapp.ui.theme.typography.SiriumTypography
 
@@ -26,29 +27,24 @@ private val LightSiriumColorScheme = lightColorScheme(
 )
 
 private val DarkSiriumColorScheme = darkColorScheme(
-    primary = LightSiriumColor.colorPrimary,
-    secondary = LightSiriumColor.secondaryColor,
-    tertiary = LightSiriumColor.secondaryColor2,
-    background = LightSiriumColor.backSecondary4,
-    surface = LightSiriumColor.backSecondary,
-    onPrimary = LightSiriumColor.white,
-    onSecondary = LightSiriumColor.white,
-    onBackground = LightSiriumColor.white,
-    onSurface = LightSiriumColor.white
+    primary = DarkSiriumColor.colorPrimary,
+    secondary = DarkSiriumColor.secondaryColor,
+    tertiary = DarkSiriumColor.secondaryColor2,
+    background = DarkSiriumColor.backPrimary,
+    surface = DarkSiriumColor.backSecondary,
+    onPrimary = DarkSiriumColor.white,
+    onSecondary = DarkSiriumColor.textPrimary,
+    onBackground = DarkSiriumColor.textPrimary,
+    onSurface = DarkSiriumColor.textPrimary,
+    outline = DarkSiriumColor.borderDisable
 )
 
 @Composable
 fun SiriumTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
         darkTheme -> DarkSiriumColorScheme
         else -> LightSiriumColorScheme
     }
