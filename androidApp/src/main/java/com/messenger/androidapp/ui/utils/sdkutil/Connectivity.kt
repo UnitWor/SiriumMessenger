@@ -1,4 +1,4 @@
-package com.messenger.androidapp.ui.sdkutil
+package com.messenger.androidapp.ui.utils.sdkutil
 
 import android.content.Context
 import android.net.ConnectivityManager

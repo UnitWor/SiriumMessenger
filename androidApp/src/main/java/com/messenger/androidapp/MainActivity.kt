@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,8 +28,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.messenger.androidapp.ui.theme.SiriumTheme
+import io.github.fletchmckee.liquid.liquefiable
+import io.github.fletchmckee.liquid.liquid
+import io.github.fletchmckee.liquid.rememberLiquidState
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,59 +50,29 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App() {
-    var showContent by remember { mutableStateOf(false) }
+    val liquidState = rememberLiquidState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = com.messenger.composeapp.R.drawable.ic_launcher_foreground),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxSize()
+                .liquefiable(liquidState)
+        )
+
         Box(
             modifier = Modifier
-                .size(100.dp)
-                .background(
-                    color = MaterialTheme.colorScheme.tertiary
-                )
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = "Primary Color Box",
-            color = MaterialTheme.colorScheme.onPrimary
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Surface(
-            color = MaterialTheme.colorScheme.secondary,
-            shape = RoundedCornerShape(8.dp)
+                .align(Alignment.Center)
+                .liquid(liquidState) {
+                    frost = 5.dp
+                    shape = RoundedCornerShape(30.dp)
+                    refraction = 0.10f
+                    edge = 0.1f
+                    curve = 0.05f
+                }
         ) {
-            Text(
-                text = "Secondary Surface",
-                color = MaterialTheme.colorScheme.onSecondary,
-                modifier = Modifier.padding(16.dp)
-            )
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = "Background Text",
-            color = MaterialTheme.colorScheme.onBackground
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = "Surface Text",
-            color = MaterialTheme.colorScheme.onSurface
-        )
-
-        if (showContent) {
-            Text("Content shown")
+            Text("Glass", color = Color.White, modifier = Modifier.padding(80.dp))
         }
     }
 }
