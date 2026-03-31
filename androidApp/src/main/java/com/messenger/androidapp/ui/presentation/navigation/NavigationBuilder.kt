@@ -8,6 +8,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.messenger.androidapp.ui.presentation.approutes.AppRoutes
+import io.github.fletchmckee.liquid.liquefiable
+import io.github.fletchmckee.liquid.rememberLiquidState
 
 @Composable
 fun NavigationBuilder(
@@ -16,12 +18,16 @@ fun NavigationBuilder(
     visibleBottomBar: Boolean,
     startDestination: String
 ) {
+    val liquidState = rememberLiquidState()
+
     Box(
         modifier = modifier
             .fillMaxSize()
     ) {
         NavHost(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .liquefiable(liquidState),
             navController = navController,
             startDestination = startDestination,
         ){
@@ -41,6 +47,18 @@ fun NavigationBuilder(
 
             }
             composable(AppRoutes.SPECIFY_BIRTHDAY){
+
+            }
+            composable(AppRoutes.PROFILE){
+
+            }
+            composable(AppRoutes.SETTING){
+
+            }
+            composable(AppRoutes.SEARCH){
+
+            }
+            composable(AppRoutes.MESSAGE){
 
             }
         }

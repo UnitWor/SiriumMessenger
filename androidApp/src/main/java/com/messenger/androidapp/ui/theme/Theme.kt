@@ -1,19 +1,19 @@
 package com.messenger.androidapp.ui.theme
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 import com.messenger.androidapp.ui.theme.color.DarkSiriumColor
 import com.messenger.androidapp.ui.theme.color.LightSiriumColor
+import com.messenger.androidapp.ui.theme.color.SiriumColorScheme
+import com.messenger.androidapp.ui.theme.typography.STypography
 import com.messenger.androidapp.ui.theme.typography.SiriumTypography
 
-private val LightSiriumColorScheme = lightColorScheme(
+private val lightMaterialColorScheme = lightColorScheme(
     primary = LightSiriumColor.colorPrimary,
     secondary = LightSiriumColor.secondaryColor,
     tertiary = LightSiriumColor.secondaryColor2,
@@ -23,10 +23,10 @@ private val LightSiriumColorScheme = lightColorScheme(
     onSecondary = LightSiriumColor.textPrimary,
     onBackground = LightSiriumColor.textPrimary,
     onSurface = LightSiriumColor.textPrimary,
-    outline = LightSiriumColor.borderDisable
+    outline = LightSiriumColor.borderDisable,
 )
 
-private val DarkSiriumColorScheme = darkColorScheme(
+private val darkMaterialColorScheme = darkColorScheme(
     primary = DarkSiriumColor.colorPrimary,
     secondary = DarkSiriumColor.secondaryColor,
     tertiary = DarkSiriumColor.secondaryColor2,
@@ -39,19 +39,47 @@ private val DarkSiriumColorScheme = darkColorScheme(
     outline = DarkSiriumColor.borderDisable
 )
 
+val LightSiriumColorScheme = SiriumColorScheme(
+    material = lightMaterialColorScheme,
+    backSecondary4 = LightSiriumColor.backSecondary4,
+    backSecondary3 = LightSiriumColor.backSecondary3,
+    textSecondary = LightSiriumColor.textSecondary,
+)
+
+val DarkSiriumColorScheme = SiriumColorScheme(
+    material = darkMaterialColorScheme,
+    backSecondary4 = DarkSiriumColor.backSecondary4,
+    backSecondary3 = DarkSiriumColor.backSecondary3,
+    textSecondary = DarkSiriumColor.textSecondary,
+)
+
+val LocalSiriumColorScheme = staticCompositionLocalOf { LightSiriumColorScheme }
+val LocalSiriumTypographyData = staticCompositionLocalOf { SiriumTypography }
+
 @Composable
 fun SiriumTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        darkTheme -> DarkSiriumColorScheme
-        else -> LightSiriumColorScheme
-    }
+    val siriumColorScheme = if (darkTheme) DarkSiriumColorScheme else LightSiriumColorScheme
 
     MaterialTheme(
-        colorScheme = colorScheme,
-        typography = SiriumTypography,
-        content = content
+        colorScheme = siriumColorScheme.material,
+        typography = SiriumTypography.material,
+        content = {
+            CompositionLocalProvider(
+                LocalSiriumColorScheme provides siriumColorScheme
+            ) {
+                content()
+            }
+        }
     )
 }
+
+val siriumColors: SiriumColorScheme
+    @Composable
+    get() = LocalSiriumColorScheme.current
+
+val siriumTypography: STypography
+    @Composable
+    get() = LocalSiriumTypographyData.current

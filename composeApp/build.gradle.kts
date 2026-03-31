@@ -29,6 +29,7 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(libs.kotlinx.coroutines.core)
 
+                implementation(project(":androidApp"))
                 implementation(project(":data"))
                 implementation(project(":domain"))
             }
