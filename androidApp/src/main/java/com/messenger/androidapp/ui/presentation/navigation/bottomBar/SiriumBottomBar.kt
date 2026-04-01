@@ -183,7 +183,7 @@ fun SiriumBottomBar(
                 refraction = 0.35f
                 edge = 0.1f
                 curve = 0.55f
-//                tint = Color.White.copy(0.5f)
+                tint = Color.White.copy(0.5f)
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
