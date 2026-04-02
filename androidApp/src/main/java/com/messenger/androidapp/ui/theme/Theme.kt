@@ -20,6 +20,7 @@ private val lightMaterialColorScheme = lightColorScheme(
     background = LightSiriumColor.backPrimary,
     surface = LightSiriumColor.backSecondary,
     onPrimary = LightSiriumColor.white,
+    error = LightSiriumColor.error,
     onSecondary = LightSiriumColor.textPrimary,
     onBackground = LightSiriumColor.textPrimary,
     onSurface = LightSiriumColor.textPrimary,
@@ -33,6 +34,7 @@ private val darkMaterialColorScheme = darkColorScheme(
     background = DarkSiriumColor.backPrimary,
     surface = DarkSiriumColor.backSecondary,
     onPrimary = DarkSiriumColor.white,
+    error = DarkSiriumColor.error,
     onSecondary = DarkSiriumColor.textPrimary,
     onBackground = DarkSiriumColor.textPrimary,
     onSurface = DarkSiriumColor.textPrimary,
@@ -44,6 +46,7 @@ val LightSiriumColorScheme = SiriumColorScheme(
     backSecondary4 = LightSiriumColor.backSecondary4,
     backSecondary3 = LightSiriumColor.backSecondary3,
     textSecondary = LightSiriumColor.textSecondary,
+    sky2 = LightSiriumColor.sky2
 )
 
 val DarkSiriumColorScheme = SiriumColorScheme(
@@ -51,6 +54,7 @@ val DarkSiriumColorScheme = SiriumColorScheme(
     backSecondary4 = DarkSiriumColor.backSecondary4,
     backSecondary3 = DarkSiriumColor.backSecondary3,
     textSecondary = DarkSiriumColor.textSecondary,
+    sky2 = DarkSiriumColor.sky2
 )
 
 val LocalSiriumColorScheme = staticCompositionLocalOf { LightSiriumColorScheme }

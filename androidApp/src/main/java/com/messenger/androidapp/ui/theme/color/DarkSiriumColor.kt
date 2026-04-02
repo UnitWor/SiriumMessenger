@@ -12,6 +12,8 @@ object DarkSiriumColor {
     val backPrimary = Color(0xFF121212)
     val backSecondary = Color(0xFF1E1E1E)
     val backSecondary3 = Color(0xFF2A2A2A)
-    val backSecondary4 = Color(0xFF2C2C2C)  // темный фон для акцентов
+    val backSecondary4 = Color(0xFF2C2C2C)
     val borderDisable = Color(0xFF404040)
+    val sky2 = Color(0xFFCDCFD0)
+    val error = Color(0xFFFF383C)
 }

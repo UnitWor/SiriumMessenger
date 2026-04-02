@@ -1,2 +1,301 @@
 package com.messenger.androidapp.ui.presentation.shared.text
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.messenger.androidapp.R
+import com.messenger.androidapp.ui.theme.siriumColors
+import com.messenger.androidapp.ui.theme.siriumTypography
+
+@Preview
+@Composable
+private fun PrevTextField() {
+    var text by remember { mutableStateOf("") }
+    var search by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    Column(
+        modifier = Modifier.padding(horizontal = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
+        CustomTextField(
+            modifier = Modifier,
+            isError = false,
+            text = text,
+            onTextFieldChange = { text = it }
+        )
+        SearchTextField(
+            search = search
+        ) { search = it }
+
+        TextFieldWithLabel(
+            text = name,
+            onTextFieldChange = { name = it },
+            label = "Имя",
+            placeholder = "Имя"
+        )
+        PasswordTextField(
+            password = password,
+            onPasswordChange = { password = it }
+        )
+    }
+}
+
+
+@Composable
+fun SearchTextField(
+    modifier: Modifier = Modifier,
+    search: String,
+    onSearchChange: (String) -> Unit
+) {
+    CustomTextField(
+        text = search,
+        onTextFieldChange = onSearchChange,
+        verticalPadding = 12.dp,
+        placeholder = "Search",
+        modifier = modifier,
+        modifierText = Modifier.fillMaxWidth(),
+        singleLine = true,
+        leadingIcon = {
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_search),
+                contentDescription = null,
+                tint = if (search.isNotEmpty()) siriumColors.material.onSecondary else siriumColors.textSecondary,
+                modifier = Modifier.size(20.dp)
+            )
+        }
+    )
+}
+
+@Composable
+fun PasswordTextField(
+    modifier: Modifier = Modifier,
+    password: String,
+    onPasswordChange: (String) -> Unit
+) {
+    var visiblePassword by remember { mutableStateOf(false) }
+
+    val transform = if (visiblePassword) {
+        VisualTransformation.None
+    } else {
+        PasswordVisualTransformation('*')
+    }
+    val icon = if (visiblePassword) R.drawable.ic_eye else R.drawable.ic_close_eye
+    CustomTextField(
+        text = password,
+        modifier = modifier,
+        onTextFieldChange = onPasswordChange,
+        transformation = transform,
+        placeholder = "Пароль",
+        keybOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        arrangementSpacer = 8.dp,
+        trailingIcon = {
+            Icon(
+                imageVector = ImageVector.vectorResource(icon),
+                contentDescription = null,
+                tint = Color.Unspecified,
+                modifier = Modifier.clickable { visiblePassword = !visiblePassword }
+            )
+        }
+    )
+}
+
+@Composable
+fun TextFieldWithLabel(
+    modifier: Modifier = Modifier,
+    modifierTextField: Modifier = Modifier,
+    text: String,
+    isError: Boolean = false,
+    enabled: Boolean = true,
+    placeholder: String,
+    onTextFieldChange: (String) -> Unit,
+    label: String
+) {
+    LabelAndContent(
+        modifier = modifier.fillMaxWidth(),
+        label = label
+    ) {
+        CustomTextField(
+            modifier = modifierTextField,
+            text = text,
+            enabled = enabled,
+            onTextFieldChange = onTextFieldChange,
+            isError = isError,
+            placeholder = placeholder,
+            singleLine = true
+        )
+    }
+}
+
+@Composable
+fun LabelAndContent(
+    modifier: Modifier = Modifier,
+    label: String,
+    content: @Composable () -> Unit
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.Start
+    ) {
+        Text(
+            text = label,
+            color = siriumColors.backSecondary3,
+            style = siriumTypography.extraSmallMedium
+        )
+        content()
+    }
+}
+
+@Composable
+fun CustomTextField(
+    modifier: Modifier = Modifier,
+    modifierText: Modifier = Modifier,
+    text: String,
+    isError: Boolean = false,
+    enabled: Boolean = true,
+    verticalPadding: Dp = 16.dp,
+    horizontalPadding: Dp = 16.dp,
+    arrangementSpacer: Dp = 16.dp,
+    singleLine: Boolean = false,
+    readOnly: Boolean = false,
+    boxShape: Dp = 16.dp,
+    fontWeight: FontWeight = FontWeight.Normal,
+    placeholder: String = "",
+    stylePlaceholder: TextStyle = siriumTypography.material.bodySmall,
+    font: Int = R.font.montserrat_regular,
+    keybOptions: KeyboardOptions = KeyboardOptions.Default,
+    keybAction: KeyboardActions = KeyboardActions.Default,
+    transformation: VisualTransformation = VisualTransformation.None,
+    maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    onTextFieldChange: (String) -> Unit
+) {
+    val backgroundColor = if (isError) siriumColors.material.error.copy(0.2f)
+    else if(text.isNotEmpty()) siriumColors.backSecondary3
+    else siriumColors.material.background
+
+    val backColor by animateColorAsState(
+        targetValue = backgroundColor,
+        animationSpec = tween(500)
+    )
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(color = backColor, shape = RoundedCornerShape(boxShape))
+            .padding(
+                vertical = verticalPadding,
+                horizontal = horizontalPadding
+            ),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(arrangementSpacer)
+    ) {
+        leadingIcon?.invoke()
+        CustomBasicTextField(
+            text = text,
+            onTextFieldChange = onTextFieldChange,
+            singleLine = singleLine,
+            modifier = modifierText.weight(1f),
+            enabled = enabled,
+            readOnly = readOnly,
+            fontWeight = fontWeight,
+            maxLines = maxLines,
+            placeholder = placeholder,
+            stylePlaceholder = stylePlaceholder,
+            font = font,
+            keyboardOptions = keybOptions,
+            keyboardAction = keybAction,
+            transformation = transformation,
+        )
+        trailingIcon?.invoke()
+    }
+}
+
+@Composable
+fun CustomBasicTextField(
+    modifier: Modifier = Modifier,
+    text: String,
+    onTextFieldChange: (String) -> Unit,
+    enabled: Boolean = true,
+    readOnly: Boolean = false,
+    fontWeight: FontWeight = FontWeight.Normal,
+    placeholder: String = "",
+    singleLine: Boolean = false,
+    maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+    stylePlaceholder: TextStyle = siriumTypography.material.bodySmall,
+    font: Int = R.font.montserrat_regular,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardAction: KeyboardActions = KeyboardActions.Default,
+    transformation: VisualTransformation = VisualTransformation.None
+) {
+    BasicTextField(
+        modifier = modifier,
+        value = text,
+        enabled = enabled,
+        readOnly = readOnly,
+        textStyle = TextStyle(
+            color = siriumColors.material.onSecondary,
+            fontSize = 12.sp,
+            fontWeight = fontWeight,
+            fontFamily = FontFamily(Font(font, fontWeight)),
+        ),
+        onValueChange = onTextFieldChange,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardAction,
+        visualTransformation = transformation,
+        singleLine = singleLine,
+        maxLines = maxLines,
+        cursorBrush = SolidColor(siriumColors.material.primary),
+        decorationBox = { innerTextField ->
+            if (text.isEmpty()) {
+                Text(
+                    text = placeholder,
+                    color = siriumColors.textSecondary,
+                    style = stylePlaceholder
+                )
+            }
+            innerTextField()
+        }
+    )
+}

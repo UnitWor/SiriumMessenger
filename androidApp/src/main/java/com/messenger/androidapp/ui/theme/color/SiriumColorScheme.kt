@@ -8,4 +8,5 @@ data class SiriumColorScheme(
     val backSecondary4: Color,
     val backSecondary3: Color,
     val textSecondary: Color,
+    val sky2: Color
 )
