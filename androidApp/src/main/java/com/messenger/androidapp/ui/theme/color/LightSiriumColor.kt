@@ -15,5 +15,6 @@ object LightSiriumColor {
     val backSecondary4 = Color(0xFF171717)
     val borderDisable = Color(0xFFD4D4D4)
     val sky2 = Color(0xFFCDCFD0)
-    val error = Color(0xFFFF383C)
+    val green = Color(0xFF34C759)
+    val red = Color(0xFFFF383C)
 }

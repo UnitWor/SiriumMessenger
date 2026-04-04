@@ -28,37 +28,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SiriumTheme {
-                App()
             }
         }
     }
 }
 
-@Composable
-fun App() {
-    val liquidState = rememberLiquidState()
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize()
-                .liquefiable(liquidState)
-        )
-
-        Box(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .liquid(liquidState) {
-                    frost = 5.dp
-                    shape = RoundedCornerShape(30.dp)
-                    refraction = 0.10f
-                    edge = 0.1f
-                    curve = 0.05f
-                }
-        ) {
-            Text("Glass", color = Color.White, modifier = Modifier.padding(80.dp))
-        }
-    }
-}

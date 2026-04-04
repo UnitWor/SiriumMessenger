@@ -3,11 +3,13 @@ package com.messenger.androidapp.ui.presentation.navigation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.messenger.androidapp.ui.presentation.approutes.AppRoutes
+import com.messenger.androidapp.ui.presentation.navigation.bottomBar.SiriumBottomBar
 import io.github.fletchmckee.liquid.liquefiable
 import io.github.fletchmckee.liquid.rememberLiquidState
 
@@ -16,7 +18,6 @@ fun NavigationBuilder(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     visibleBottomBar: Boolean,
-    startDestination: String
 ) {
     val liquidState = rememberLiquidState()
 
@@ -29,7 +30,7 @@ fun NavigationBuilder(
                 .fillMaxSize()
                 .liquefiable(liquidState),
             navController = navController,
-            startDestination = startDestination,
+            startDestination = AppRoutes.AUTH_REGISTER,
         ){
             composable(AppRoutes.AUTH_REGISTER){
 
@@ -63,7 +64,11 @@ fun NavigationBuilder(
             }
         }
         if (visibleBottomBar){
-
+            SiriumBottomBar(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                liquidState = liquidState,
+                navController = navController
+            )
         }
     }
 }

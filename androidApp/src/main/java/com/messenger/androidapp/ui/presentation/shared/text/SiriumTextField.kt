@@ -4,7 +4,9 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -27,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -53,13 +57,13 @@ private fun PrevTextField() {
     var search by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var message by remember { mutableStateOf("") }
     Column(
         modifier = Modifier.padding(horizontal = 20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        CustomTextField(
+        SiriumTextField(
             modifier = Modifier,
-            isError = false,
             text = text,
             onTextFieldChange = { text = it }
         )
@@ -77,9 +81,92 @@ private fun PrevTextField() {
             password = password,
             onPasswordChange = { password = it }
         )
+        MessageTextField(
+            onAddedFiles = {},
+            onSendMessage = {},
+            onSendVoice = {},
+            message = message,
+            onMessageChange = { message = it }
+        )
     }
 }
 
+
+@Composable
+fun MessageTextField(
+    modifier: Modifier = Modifier,
+    onAddedFiles: () -> Unit,
+    onSendMessage: () -> Unit,
+    onSendVoice: () -> Unit,
+    message: String,
+    onMessageChange: (String) -> Unit
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        SiriumIconButton(
+            icon = R.drawable.ic_add,
+            backColor = Color.Unspecified,
+            padding = 8.dp,
+            onClick = onAddedFiles
+        )
+        CustomTextField(
+            modifier = Modifier.weight(1f),
+            text = message,
+            onTextFieldChange = onMessageChange,
+            boxShape = CircleShape,
+            arrangementSpacer = 12.dp,
+            startPadding = 16.dp,
+            endPadding = 6.dp,
+            topPadding = 7.dp,
+            bottomPadding = 7.dp,
+            trailingIcon = {
+                SiriumIconButton(
+                    icon = R.drawable.ic_send,
+                    padding = 10.dp,
+                    onClick = onSendMessage
+                )
+            },
+        )
+        SiriumIconButton(
+            icon = R.drawable.ic_micro,
+            padding = 6.dp,
+            onClick = onSendVoice
+        )
+    }
+}
+
+@Composable
+fun SiriumIconButton(
+    modifier: Modifier = Modifier,
+    icon: Int,
+    onClick: () -> Unit,
+    shape: Shape = CircleShape,
+    backColor: Color = siriumColors.material.primary,
+    padding: Dp
+) {
+    Box(
+        modifier = modifier
+            .background(
+                color = backColor,
+                shape = shape
+            )
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = onClick
+            )
+    ) {
+        Icon(
+            imageVector = ImageVector.vectorResource(icon),
+            contentDescription = null,
+            tint = Color.Unspecified,
+            modifier = Modifier.padding(padding)
+        )
+    }
+}
 
 @Composable
 fun SearchTextField(
@@ -87,13 +174,18 @@ fun SearchTextField(
     search: String,
     onSearchChange: (String) -> Unit
 ) {
+    val backgroundColor =
+        if(search.isNotEmpty()) siriumColors.backSecondary3 else siriumColors.material.background
+
     CustomTextField(
         text = search,
         onTextFieldChange = onSearchChange,
-        verticalPadding = 12.dp,
+        topPadding = 12.dp,
+        bottomPadding = 12.dp,
         placeholder = "Search",
         modifier = modifier,
         modifierText = Modifier.fillMaxWidth(),
+        boxColor = backgroundColor,
         singleLine = true,
         leadingIcon = {
             Icon(
@@ -110,9 +202,15 @@ fun SearchTextField(
 fun PasswordTextField(
     modifier: Modifier = Modifier,
     password: String,
+    isError: Boolean = false,
     onPasswordChange: (String) -> Unit
 ) {
     var visiblePassword by remember { mutableStateOf(false) }
+
+    val backgroundColor =
+        if (isError) siriumColors.material.error.copy(0.2f)
+        else if(password.isNotEmpty()) siriumColors.backSecondary3
+        else siriumColors.material.background
 
     val transform = if (visiblePassword) {
         VisualTransformation.None
@@ -126,6 +224,7 @@ fun PasswordTextField(
         onTextFieldChange = onPasswordChange,
         transformation = transform,
         placeholder = "Пароль",
+        boxColor = backgroundColor,
         keybOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         arrangementSpacer = 8.dp,
         trailingIcon = {
@@ -150,6 +249,10 @@ fun TextFieldWithLabel(
     onTextFieldChange: (String) -> Unit,
     label: String
 ) {
+    val backgroundColor = if (isError) siriumColors.material.error.copy(0.2f)
+    else if(text.isNotEmpty()) siriumColors.backSecondary3
+    else siriumColors.material.background
+
     LabelAndContent(
         modifier = modifier.fillMaxWidth(),
         label = label
@@ -159,9 +262,9 @@ fun TextFieldWithLabel(
             text = text,
             enabled = enabled,
             onTextFieldChange = onTextFieldChange,
-            isError = isError,
             placeholder = placeholder,
-            singleLine = true
+            singleLine = true,
+            boxColor = backgroundColor
         )
     }
 }
@@ -187,18 +290,20 @@ fun LabelAndContent(
 }
 
 @Composable
-fun CustomTextField(
+fun SiriumTextField(
     modifier: Modifier = Modifier,
     modifierText: Modifier = Modifier,
     text: String,
-    isError: Boolean = false,
     enabled: Boolean = true,
-    verticalPadding: Dp = 16.dp,
-    horizontalPadding: Dp = 16.dp,
+    isError: Boolean = false,
+    topPadding: Dp = 16.dp,
+    bottomPadding: Dp = 16.dp,
+    startPadding: Dp = 16.dp,
+    endPadding: Dp = 16.dp,
     arrangementSpacer: Dp = 16.dp,
     singleLine: Boolean = false,
     readOnly: Boolean = false,
-    boxShape: Dp = 16.dp,
+    boxShape: Shape = RoundedCornerShape(16.dp),
     fontWeight: FontWeight = FontWeight.Normal,
     placeholder: String = "",
     stylePlaceholder: TextStyle = siriumTypography.material.bodySmall,
@@ -211,22 +316,81 @@ fun CustomTextField(
     leadingIcon: @Composable (() -> Unit)? = null,
     onTextFieldChange: (String) -> Unit
 ) {
+
     val backgroundColor = if (isError) siriumColors.material.error.copy(0.2f)
     else if(text.isNotEmpty()) siriumColors.backSecondary3
     else siriumColors.material.background
 
+    CustomTextField(
+        modifier = modifier,
+        modifierText = modifierText,
+        text = text,
+        enabled = enabled,
+        topPadding = topPadding,
+        bottomPadding = bottomPadding,
+        startPadding = startPadding,
+        endPadding = endPadding,
+        arrangementSpacer = arrangementSpacer,
+        singleLine = singleLine,
+        readOnly = readOnly,
+        boxColor = backgroundColor,
+        boxShape = boxShape,
+        fontWeight = fontWeight,
+        placeholder = placeholder,
+        stylePlaceholder = stylePlaceholder,
+        font = font,
+        keybOptions = keybOptions,
+        keybAction = keybAction,
+        transformation = transformation,
+        maxLines = maxLines,
+        trailingIcon = trailingIcon,
+        leadingIcon = leadingIcon,
+        onTextFieldChange = onTextFieldChange
+    )
+}
+
+@Composable
+fun CustomTextField(
+    modifier: Modifier = Modifier,
+    modifierText: Modifier = Modifier,
+    text: String,
+    enabled: Boolean = true,
+    topPadding: Dp = 16.dp,
+    bottomPadding: Dp = 16.dp,
+    startPadding: Dp = 16.dp,
+    endPadding: Dp = 16.dp,
+    arrangementSpacer: Dp = 16.dp,
+    singleLine: Boolean = false,
+    readOnly: Boolean = false,
+    boxColor: Color = siriumColors.material.background,
+    boxShape: Shape = RoundedCornerShape(16.dp),
+    fontWeight: FontWeight = FontWeight.Normal,
+    placeholder: String = "",
+    stylePlaceholder: TextStyle = siriumTypography.material.bodySmall,
+    font: Int = R.font.montserrat_regular,
+    keybOptions: KeyboardOptions = KeyboardOptions.Default,
+    keybAction: KeyboardActions = KeyboardActions.Default,
+    transformation: VisualTransformation = VisualTransformation.None,
+    maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    onTextFieldChange: (String) -> Unit
+) {
+
     val backColor by animateColorAsState(
-        targetValue = backgroundColor,
+        targetValue = boxColor,
         animationSpec = tween(500)
     )
 
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(color = backColor, shape = RoundedCornerShape(boxShape))
+            .background(color = backColor, shape = boxShape)
             .padding(
-                vertical = verticalPadding,
-                horizontal = horizontalPadding
+                top = topPadding,
+                end = endPadding,
+                bottom = bottomPadding,
+                start = startPadding,
             ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(arrangementSpacer)

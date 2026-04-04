@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.composeHotReload)
+//    alias(libs.plugins.composeHotReload)
 }
 
 kotlin {
@@ -29,7 +29,6 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(libs.kotlinx.coroutines.core)
 
-                implementation(project(":androidApp"))
                 implementation(project(":data"))
                 implementation(project(":domain"))
             }
@@ -59,6 +58,9 @@ kotlin {
     }
 }
 
+dependencies{
+    implementation(project(":androidApp"))
+}
 android {
     namespace = "com.messenger.composeapp"
     compileSdk = 36
