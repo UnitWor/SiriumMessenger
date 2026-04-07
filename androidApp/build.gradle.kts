@@ -56,6 +56,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
 
+    implementation(libs.accompanist.permissions)
     implementation(libs.liquid)
     // Compose
     implementation(platform(libs.androidx.compose.bom))

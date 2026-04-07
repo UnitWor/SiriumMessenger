@@ -1,6 +1,8 @@
 package com.messenger.androidapp.ui.presentation.shared.text
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -113,7 +115,8 @@ fun MessageTextField(
             onClick = onAddedFiles
         )
         CustomTextField(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f),
             text = message,
             onTextFieldChange = onMessageChange,
             boxShape = CircleShape,
@@ -202,15 +205,9 @@ fun SearchTextField(
 fun PasswordTextField(
     modifier: Modifier = Modifier,
     password: String,
-    isError: Boolean = false,
     onPasswordChange: (String) -> Unit
 ) {
     var visiblePassword by remember { mutableStateOf(false) }
-
-    val backgroundColor =
-        if (isError) siriumColors.material.error.copy(0.2f)
-        else if(password.isNotEmpty()) siriumColors.backSecondary3
-        else siriumColors.material.background
 
     val transform = if (visiblePassword) {
         VisualTransformation.None
@@ -218,13 +215,12 @@ fun PasswordTextField(
         PasswordVisualTransformation('*')
     }
     val icon = if (visiblePassword) R.drawable.ic_eye else R.drawable.ic_close_eye
-    CustomTextField(
+    SiriumTextField(
         text = password,
         modifier = modifier,
         onTextFieldChange = onPasswordChange,
         transformation = transform,
         placeholder = "Пароль",
-        boxColor = backgroundColor,
         keybOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         arrangementSpacer = 8.dp,
         trailingIcon = {
@@ -249,22 +245,17 @@ fun TextFieldWithLabel(
     onTextFieldChange: (String) -> Unit,
     label: String
 ) {
-    val backgroundColor = if (isError) siriumColors.material.error.copy(0.2f)
-    else if(text.isNotEmpty()) siriumColors.backSecondary3
-    else siriumColors.material.background
-
     LabelAndContent(
         modifier = modifier.fillMaxWidth(),
         label = label
     ) {
-        CustomTextField(
+        SiriumTextField(
             modifier = modifierTextField,
             text = text,
             enabled = enabled,
             onTextFieldChange = onTextFieldChange,
             placeholder = placeholder,
             singleLine = true,
-            boxColor = backgroundColor
         )
     }
 }
@@ -384,7 +375,6 @@ fun CustomTextField(
 
     Row(
         modifier = modifier
-            .fillMaxWidth()
             .background(color = backColor, shape = boxShape)
             .padding(
                 top = topPadding,
