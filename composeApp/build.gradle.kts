@@ -16,7 +16,6 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-
     jvm("desktop")
 
     sourceSets {

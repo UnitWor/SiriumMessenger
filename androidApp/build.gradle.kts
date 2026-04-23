@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     implementation(libs.core.ktx)
+    implementation(libs.androidx.compose.animation)
     kapt(libs.room.compiler)
 
     // Network

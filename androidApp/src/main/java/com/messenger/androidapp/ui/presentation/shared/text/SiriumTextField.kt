@@ -1,7 +1,15 @@
 package com.messenger.androidapp.ui.presentation.shared.text
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -35,6 +43,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -97,6 +106,13 @@ fun MessageTextField(
     message: String,
     onMessageChange: (String) -> Unit
 ) {
+    val verticalPadding by animateDpAsState(
+        targetValue = if (message.isEmpty()) 15.5.dp else 7.dp,
+    )
+    val horizontalPadding by animateDpAsState(
+        targetValue = if (message.isEmpty()) 16.dp else 6.dp,
+    )
+
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -115,16 +131,26 @@ fun MessageTextField(
             onTextFieldChange = onMessageChange,
             boxShape = CircleShape,
             arrangementSpacer = 12.dp,
+            keybOptions = KeyboardOptions(
+                autoCorrect = true,
+                capitalization = KeyboardCapitalization.Words
+            ),
             startPadding = 16.dp,
-            endPadding = 6.dp,
-            topPadding = 7.dp,
-            bottomPadding = 7.dp,
+            endPadding = horizontalPadding,
+            topPadding = verticalPadding,
+            bottomPadding = verticalPadding,
             trailingIcon = {
-                SiriumIconButton(
-                    icon = R.drawable.ic_send,
-                    padding = 10.dp,
-                    onClick = onSendMessage
-                )
+                AnimatedVisibility(
+                    visible = message.isNotEmpty(),
+                    enter = fadeIn() + scaleIn(),
+                    exit = fadeOut() + scaleOut()
+                ) {
+                    SiriumIconButton(
+                        icon = R.drawable.ic_send,
+                        padding = 10.dp,
+                        onClick = onSendMessage
+                    )
+                }
             },
         )
         SiriumIconButton(
@@ -181,6 +207,9 @@ fun SearchTextField(
         bottomPadding = 12.dp,
         placeholder = "Search",
         modifier = modifier,
+        keybOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Words
+        ),
         modifierText = Modifier.fillMaxWidth(),
         boxColor = backgroundColor,
         singleLine = true,
@@ -246,6 +275,9 @@ fun TextFieldWithLabel(
             modifier = modifierTextField,
             text = text,
             enabled = enabled,
+            keybOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Words
+            ),
             onTextFieldChange = onTextFieldChange,
             placeholder = placeholder,
             singleLine = true,
@@ -292,7 +324,7 @@ fun SiriumTextField(
     placeholder: String = "",
     stylePlaceholder: TextStyle = siriumTypography.material.bodySmall,
     font: Int = R.font.montserrat_regular,
-    keybOptions: KeyboardOptions = KeyboardOptions.Default,
+    keybOptions: KeyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words),
     keybAction: KeyboardActions = KeyboardActions.Default,
     transformation: VisualTransformation = VisualTransformation.None,
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,

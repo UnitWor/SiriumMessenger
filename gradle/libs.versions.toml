@@ -27,6 +27,7 @@ sqlite = "3.49.1.0"
 kamel = "1.0.0"
 composeBom = "2025.02.00"
 coreKtx = "1.18.0"
+animation = "1.10.6"
 
 [libraries]
 # Compose Multiplatform
@@ -113,6 +114,7 @@ junit = { module = "junit:junit", version.ref = "junit" }
 androidx-testExt-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-testExt" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-espresso" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-compose-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "animation" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

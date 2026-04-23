@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.messenger.androidapp.R
 import com.messenger.androidapp.ui.theme.siriumColors
 import com.messenger.androidapp.ui.theme.siriumTypography
 import kotlin.math.roundToInt
@@ -44,7 +45,7 @@ private fun PrevSiriumSegmentControl() {
     var segment by remember { mutableStateOf(0) }
 
     SiriumSegmentControl(
-        options = listOf("Segment", "Segment"),
+        options = listOf("Вход", "Регистрация"),
         selectedIndex = segment,
         onSelectedChanged = { segment = it }
     )
@@ -68,8 +69,6 @@ fun SiriumSegmentControl(
 
     val animatedOffset by animateFloatAsState(
         targetValue = if (!isDragging) dragTargetIndex * itemWidth else dragTargetIndex * itemWidth + dragOffset,
-        animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing),
-        label = "offset"
     )
 
     val currentOffset = if (isDragging) {
@@ -165,7 +164,6 @@ fun SiriumSegmentControl(
                         targetValue = if (index == dragTargetIndex) siriumColors.material.onPrimary
                         else siriumColors.textSecondary,
                         animationSpec = tween(durationMillis = 200, easing = FastOutSlowInEasing),
-                        label = "color"
                     )
 
                     Box(

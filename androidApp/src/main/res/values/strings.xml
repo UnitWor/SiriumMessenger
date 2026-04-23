@@ -1,3 +1,14 @@
 <resources>
     <string name="sirium">Sirium</string>
+    <string name="log_in_account">Войдите в аккаунт</string>
+    <string name="create_an_account">Создайте аккаунт</string>
+    <string name="registration">Регистрация</string>
+    <string name="entrance">Вход</string>
+    <string name="number_phone">Номер телефона</string>
+    <string name="to_crerate">Создать</string>
+    <string name="or">Или</string>
+    <string name="log_in_using_gmail">Войдите с помощью Gmail</string>
+    <string name="log_in_using_apple_id">Войдите с помощью Apple ID</string>
+    <string name="password">Пароль</string>
+    <string name="enter">Войти</string>
 </resources>
