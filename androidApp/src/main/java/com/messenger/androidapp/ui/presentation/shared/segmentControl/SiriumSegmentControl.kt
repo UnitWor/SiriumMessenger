@@ -164,13 +164,14 @@ fun SiriumSegmentControl(
                                 when {
                                     dragOffset > dragThreshold && dragTargetIndex < itemCount - 1 -> {
                                         dragTargetIndex++
-                                        dragOffset -= itemWidth // Корректируем offset чтобы не было прыжка
+                                        dragOffset -= itemWidth
                                     }
                                     dragOffset < -dragThreshold && dragTargetIndex > 0 -> {
                                         dragTargetIndex--
-                                        dragOffset += itemWidth // Корректируем offset чтобы не было прыжка
+                                        dragOffset += itemWidth
                                     }
                                 }
+                                onSelectedChanged(dragTargetIndex)
                             }
                         )
                     },

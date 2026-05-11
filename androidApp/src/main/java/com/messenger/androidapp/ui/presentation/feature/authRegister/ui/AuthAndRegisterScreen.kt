@@ -185,15 +185,15 @@ fun LoginWithPhone(
             visible = authAndRegister[selectedIndex] == AuthAndRegister.AUTH,
             modifier = Modifier
                 .fillMaxWidth(),
-            enter = fadeIn(animationSpec = tween(300)) +
+            enter = fadeIn(animationSpec = tween(200)) +
                     slideInVertically(
                         initialOffsetY = { -it / 2 },
-                        animationSpec = tween(300)
+                        animationSpec = tween(200)
                     ),
-            exit = fadeOut(animationSpec = tween(300)) +
+            exit = fadeOut(animationSpec = tween(200)) +
                     slideOutVertically(
                         targetOffsetY = { -it / 2 },
-                        animationSpec = tween(300)
+                        animationSpec = tween(200)
                     )
         ) {
             PasswordTextField(
@@ -226,8 +226,8 @@ fun LogoAuthAndRegister(
                     end = 66.dp,
                     start = 64.dp
                 ),
-            enter = fadeIn(animationSpec = tween(300)) +
-                    slideInVertically(animationSpec = tween(300)) { -it },
+            enter = fadeIn(animationSpec = tween(200)) +
+                    slideInVertically(animationSpec = tween(200)) { -it },
             exit = fadeOut(animationSpec = tween(200)) +
                     slideOutVertically(animationSpec = tween(200)) { -it }
         ) {
@@ -244,8 +244,8 @@ fun LogoAuthAndRegister(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(top = 25.dp),
-            enter = fadeIn(animationSpec = tween(300)) +
-                    slideInVertically(animationSpec = tween(300)) { -it },
+            enter = fadeIn(animationSpec = tween(200)) +
+                    slideInVertically(animationSpec = tween(200)) { -it },
             exit = fadeOut(animationSpec = tween(200)) +
                     slideOutVertically(animationSpec = tween(200)) { -it }
         ) {
@@ -270,37 +270,49 @@ fun TypewriterTextWithCursor(
     onAnimationEnd: () -> Unit = {}
 ) {
     var displayedText by remember { mutableStateOf("") }
-    var isAnimating by remember { mutableStateOf(false) }
     var showCursorBlink by remember { mutableStateOf(true) }
+    var isAnimating by remember { mutableStateOf(false) }
+    var previousText by remember { mutableStateOf("") }
 
-    // Мигание курсора после завершения анимации
-    LaunchedEffect(!isAnimating && showCursor && displayedText == text) {
-        while (!isAnimating && showCursor && displayedText == text) {
-            delay(blinkIntervalMs)
-            showCursorBlink = !showCursorBlink
+    LaunchedEffect(isAnimating, showCursor, displayedText == text) {
+        if (!isAnimating && showCursor && displayedText == text) {
+            while (true) {
+                delay(blinkIntervalMs)
+                showCursorBlink = !showCursorBlink
+            }
         }
     }
 
     LaunchedEffect(text) {
-        if (!isAnimating) {
-            isAnimating = true
-            displayedText = ""
+        if (text == previousText) return@LaunchedEffect
 
-            val charDelay = durationMs / text.length.toLong()
-            for (i in 0..text.length) {
-                displayedText = text.substring(0, i)
-                delay(charDelay)
+        isAnimating = true
+        showCursorBlink = true
+
+        if (displayedText.isNotEmpty()) {
+            val deleteDelay = (durationMs / 2) / maxOf(displayedText.length, 1).toLong()
+
+            for (i in displayedText.length downTo 0) {
+                displayedText = displayedText.substring(0, i)
+                delay(deleteDelay)
             }
-
-            isAnimating = false
-            onAnimationEnd()
         }
+
+        displayedText = ""
+        val charDelay = durationMs / maxOf(text.length, 1).toLong()
+
+        for (i in 0..text.length) {
+            displayedText = text.substring(0, i)
+            delay(charDelay)
+        }
+
+        previousText = text
+        isAnimating = false
+        onAnimationEnd()
     }
 
-    val finalText = if (showCursor && !isAnimating && showCursorBlink) {
-        displayedText
-    } else {
-        displayedText
+    val finalText = buildString {
+        append(displayedText)
     }
 
     Text(
