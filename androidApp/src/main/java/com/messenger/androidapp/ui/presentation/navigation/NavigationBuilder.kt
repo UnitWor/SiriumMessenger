@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.messenger.androidapp.ui.presentation.approutes.AppRoutes
+import com.messenger.androidapp.ui.presentation.feature.authRegister.ui.AuthAndRegisterScreen
 import com.messenger.androidapp.ui.presentation.navigation.bottomBar.SiriumBottomBar
 import io.github.fletchmckee.liquid.liquefiable
 import io.github.fletchmckee.liquid.rememberLiquidState
@@ -33,7 +34,7 @@ fun NavigationBuilder(
             startDestination = AppRoutes.AUTH_REGISTER,
         ){
             composable(AppRoutes.AUTH_REGISTER){
-
+                AuthAndRegisterScreen()
             }
             composable(AppRoutes.CUSTOMIZE_RECOMMENDATION){
 

@@ -45,16 +45,13 @@ import com.messenger.androidapp.ui.theme.siriumColors
 import com.messenger.androidapp.ui.theme.siriumTypography
 import kotlinx.coroutines.delay
 
-@Preview
 @Composable
 fun AuthAndRegisterScreen(
     modifier: Modifier = Modifier
 ) {
-    SiriumTheme {
-        AuthAndRegister(
-            modifier = modifier
-        )
-    }
+    AuthAndRegister(
+        modifier = modifier
+    )
 }
 
 @Composable
