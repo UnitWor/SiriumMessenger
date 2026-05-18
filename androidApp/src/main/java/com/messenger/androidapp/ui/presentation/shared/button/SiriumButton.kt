@@ -100,7 +100,7 @@ fun SiriumBtn(
         isFilledBtn -> siriumColors.material.primary
         isGrayBtn -> siriumColors.material.surface
         isBlackBtn -> siriumColors.backSecondary4
-        else -> siriumColors.material.surface
+        else -> siriumColors.backSecondary3
     }
 
     val txtColor = when{

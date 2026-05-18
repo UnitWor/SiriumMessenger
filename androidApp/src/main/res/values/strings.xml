@@ -11,4 +11,9 @@
     <string name="log_in_using_apple_id">Войдите с помощью Apple ID</string>
     <string name="password">Пароль</string>
     <string name="enter">Войти</string>
+    <string name="enter_code_title">Введите код</string>
+    <string name="enter_code_subtitle">По указанному номеру телефона мы отправили код подтверждения, введите его</string>
+    <string name="btn_next">Продолжить</string>
+    <string name="enter_the_code_again">Отправить код повторно</string>
+    <string name="you_entered_the_wrong_code">Вы ввели неверный код</string>
 </resources>

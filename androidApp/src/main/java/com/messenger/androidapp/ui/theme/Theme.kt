@@ -22,8 +22,6 @@ private val lightMaterialColorScheme = lightColorScheme(
     onPrimary = LightSiriumColor.white,
     error = LightSiriumColor.red,
     onSecondary = LightSiriumColor.textPrimary,
-    onBackground = LightSiriumColor.textPrimary,
-    onSurface = LightSiriumColor.textPrimary,
     outline = LightSiriumColor.borderDisable,
 )
 
@@ -36,8 +34,6 @@ private val darkMaterialColorScheme = darkColorScheme(
     onPrimary = DarkSiriumColor.white,
     error = DarkSiriumColor.red,
     onSecondary = DarkSiriumColor.textPrimary,
-    onBackground = DarkSiriumColor.textPrimary,
-    onSurface = DarkSiriumColor.textPrimary,
     outline = DarkSiriumColor.borderDisable
 )
 
