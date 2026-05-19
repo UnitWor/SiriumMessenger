@@ -34,11 +34,15 @@ fun SiriumCheckBox(
 ) {
     val backColor by animateColorAsState(
         targetValue = if (isSelected) siriumColors.material.primary else Color.Unspecified,
-        animationSpec = tween(500)
+        animationSpec = tween(300)
     )
     val borderColor by animateColorAsState(
         targetValue = if (isSelected) Color.Unspecified else siriumColors.sky2,
-        animationSpec = tween(500)
+        animationSpec = tween(300)
+    )
+    val iconColor by animateColorAsState(
+        targetValue = if (isSelected) Color.Unspecified else Color.Transparent,
+        animationSpec = tween(300)
     )
 
     Box(
@@ -58,7 +62,7 @@ fun SiriumCheckBox(
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_checkmark),
             contentDescription = null,
-            tint = Color.Unspecified,
+            tint = iconColor,
             modifier = Modifier
                 .padding(padding)
                 .size(sizeIcon)

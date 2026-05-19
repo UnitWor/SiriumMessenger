@@ -49,9 +49,7 @@ private interface SecureCodeByPhoneSсreen {
 }
 @Preview
 @Composable
-fun SecureCodeByPhoneScreen(
-    modifier: Modifier = Modifier
-) {
+fun SecureCodeByPhoneScreen() {
     SecureCodeByPhone()
 }
 

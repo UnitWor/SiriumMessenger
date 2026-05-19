@@ -264,6 +264,7 @@ fun TextFieldWithLabel(
     text: String,
     enabled: Boolean = true,
     placeholder: String,
+    keybOptions: KeyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words),
     onTextFieldChange: (String) -> Unit,
     label: String
 ) {
@@ -275,9 +276,7 @@ fun TextFieldWithLabel(
             modifier = modifierTextField,
             text = text,
             enabled = enabled,
-            keybOptions = KeyboardOptions(
-                capitalization = KeyboardCapitalization.Words
-            ),
+            keybOptions = keybOptions,
             onTextFieldChange = onTextFieldChange,
             placeholder = placeholder,
             singleLine = true,

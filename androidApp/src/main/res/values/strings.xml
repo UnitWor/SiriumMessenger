@@ -1,5 +1,7 @@
 <resources>
     <string name="sirium">Sirium</string>
+
+    <!--  Auth and Register  -->
     <string name="log_in_account">Войдите в аккаунт</string>
     <string name="create_an_account">Создайте аккаунт</string>
     <string name="registration">Регистрация</string>
@@ -11,9 +13,26 @@
     <string name="log_in_using_apple_id">Войдите с помощью Apple ID</string>
     <string name="password">Пароль</string>
     <string name="enter">Войти</string>
+
+    <!--  Secure Code  -->
     <string name="enter_code_title">Введите код</string>
     <string name="enter_code_subtitle">По указанному номеру телефона мы отправили код подтверждения, введите его</string>
-    <string name="btn_next">Продолжить</string>
     <string name="enter_the_code_again">Отправить код повторно</string>
     <string name="you_entered_the_wrong_code">Вы ввели неверный код</string>
+
+    <!-- Fill Out Form -->
+    <string name="fill_out_form">Заполните форму</string>
+    <string name="enter_name">Введите имя</string>
+    <string name="enter_last_name">Введите фамилию</string>
+    <string name="enter_password">Придумайте пароль</string>
+    <string name="placeholder_name">Введите своё имя</string>
+    <string name="placeholder_last_name">Введите свою фамилию</string>
+    <string name="placeholder_password">Введите пароль</string>
+    <string name="placeholder_repeat_password">Повторите пароль</string>
+
+    <!--  Success  -->
+    <string name="everything_is_ready">Всё готово!</string>
+
+    <!--  Other Strings  -->
+    <string name="btn_next">Продолжить</string>
 </resources>
