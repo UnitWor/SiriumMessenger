@@ -33,6 +33,16 @@
     <!--  Success  -->
     <string name="everything_is_ready">Всё готово!</string>
 
+    <!--  Birthday  -->
+    <string name="title_birthday">Укажите вашу дату рождения</string>
+    <string name="subtitle_birthday">Друзья смогут узнать вашу дату рождения и поздравят вас!</string>
+
+    <!--  Customize and Recommendation  -->
+    <string name="btn_skip">Пропустить</string>
+    <string name="btn_settings">Настроить</string>
+    <string name="title_customize">Настройка</string>
+    <string name="subtitle_customize">Хотите настроить свои вкусы для лучшего подбора рекомендаций?</string>
+    
     <!--  Other Strings  -->
     <string name="btn_next">Продолжить</string>
 </resources>

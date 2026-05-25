@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.messenger.androidapp.R
 import com.messenger.androidapp.ui.presentation.approutes.AppRoutes
+import com.messenger.androidapp.ui.presentation.feature.secureCode.ui.TitleAndSubTitle
 import com.messenger.androidapp.ui.presentation.shared.button.SiriumBtn
 import com.messenger.androidapp.ui.presentation.shared.icon.SiriumIcon
 import com.messenger.androidapp.ui.theme.siriumColors
@@ -25,10 +27,16 @@ fun RegisterSuccessScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController
 ) {
-    Content(
-        modifier = modifier,
-        openMainScreen = {navController.navigate(AppRoutes.OTHER)}
-    )
+//    Content(
+//        modifier = modifier,
+//        openMainScreen = {navController.navigate(AppRoutes.OTHER)}
+//    )
+}
+
+@Preview
+@Composable
+private fun PreviewRegisterSuccess() {
+    Content() { }
 }
 
 @Composable
@@ -40,25 +48,20 @@ private fun Content(
         modifier = modifier
             .fillMaxSize()
     ) {
-        Column(
+        TitleAndSubTitle(
             modifier = Modifier.align(Alignment.Center),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            SiriumIcon(
-                icon = R.drawable.ic_checkmark,
-            )
-            Text(
-                text = stringResource(R.string.everything_is_ready),
-                color = siriumColors.material.onSecondary,
-                style = siriumTypography.material.headlineSmall
-            )
-        }
+            title = R.string.everything_is_ready,
+            visibleSubtitle = false,
+            subtitle = 0,
+            verticalPadding = 8.dp,
+            visibleIcon = true
+        )
         SiriumBtn(
             textBtn = stringResource(R.string.btn_next),
             onClick = openMainScreen,
             isFilledBtn = true,
             modifier = Modifier
+                .fillMaxWidth()
                 .align(Alignment.BottomCenter)
                 .padding(vertical = 11.5.dp, horizontal = 24.dp)
         )

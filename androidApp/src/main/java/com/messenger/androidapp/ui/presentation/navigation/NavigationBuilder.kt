@@ -10,6 +10,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.messenger.androidapp.ui.presentation.approutes.AppRoutes
 import com.messenger.androidapp.ui.presentation.feature.authRegister.ui.AuthAndRegisterScreen
+import com.messenger.androidapp.ui.presentation.feature.customize.ui.CustomizeScreen
+import com.messenger.androidapp.ui.presentation.feature.fillOutForm.ui.FillOutForm
+import com.messenger.androidapp.ui.presentation.feature.fillOutForm.ui.FillOutFormScreen
+import com.messenger.androidapp.ui.presentation.feature.secureCode.ui.SecureCodeByPhoneScreen
 import com.messenger.androidapp.ui.presentation.navigation.bottomBar.SiriumBottomBar
 import io.github.fletchmckee.liquid.liquefiable
 import io.github.fletchmckee.liquid.rememberLiquidState
@@ -40,13 +44,13 @@ fun NavigationBuilder(
 
             }
             composable(AppRoutes.CUSTOMIZE){
-
+                CustomizeScreen()
             }
             composable(AppRoutes.SECURE_CODE){
-
+                SecureCodeByPhoneScreen()
             }
             composable(AppRoutes.FILL_OUT_FORM){
-
+                FillOutFormScreen()
             }
             composable(AppRoutes.SPECIFY_BIRTHDAY){
 

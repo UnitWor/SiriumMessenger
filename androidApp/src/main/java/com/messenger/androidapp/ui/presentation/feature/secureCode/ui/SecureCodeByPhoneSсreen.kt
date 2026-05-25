@@ -35,10 +35,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.messenger.androidapp.R
+import com.messenger.androidapp.ui.presentation.feature.customize.ui.Actions
 import com.messenger.androidapp.ui.presentation.shared.button.SiriumBtn
+import com.messenger.androidapp.ui.presentation.shared.icon.SiriumIcon
 import com.messenger.androidapp.ui.theme.siriumColors
 import com.messenger.androidapp.ui.theme.siriumTypography
 import com.messenger.androidapp.ui.theme.typography.montserrat
@@ -84,7 +87,10 @@ private fun SecureCodeByPhone() {
     ) {
         Content(
             content = {
-                TitleAndSubTitle()
+                TitleAndSubTitle(
+                    title = R.string.enter_code_title,
+                    subtitle = R.string.enter_code_subtitle,
+                )
                 BasicTextField(
                     value = code,
                     onValueChange = { newValue ->
@@ -152,26 +158,40 @@ private fun Content(
 
 @Composable
 fun TitleAndSubTitle(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    title: Int,
+    subtitle: Int,
+    icon: Int = R.drawable.ic_checkmark,
+    verticalPadding: Dp = 12.dp,
+    visibleIcon: Boolean = false,
+    visibleSubtitle: Boolean = true
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(verticalPadding)
     ) {
+        if (visibleIcon){
+            SiriumIcon(
+                icon = icon
+            )
+        }
+
         Text(
-            text = stringResource(R.string.enter_code_title),
+            text = stringResource(title),
             color = siriumColors.material.onSecondary,
             style = siriumTypography.material.headlineSmall,
             textAlign = TextAlign.Center
         )
-        Text(
-            text = stringResource(R.string.enter_code_subtitle),
-            color = siriumColors.textSecondary,
-            style = siriumTypography.material.bodySmall,
-            textAlign = TextAlign.Center
-        )
+        if (visibleSubtitle) {
+            Text(
+                text = stringResource(subtitle),
+                color = siriumColors.textSecondary,
+                style = siriumTypography.material.bodySmall,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }
 
@@ -245,14 +265,11 @@ fun ActionAndTime(
             style = siriumTypography.material.labelLarge,
             textAlign = TextAlign.Center
         )
-        SiriumBtn(
-            textBtn = stringResource(R.string.btn_next),
-            onClick = openFillOutForm,
-            isFilledBtn = true
-        )
-        SiriumBtn(
-            textBtn = stringResource(R.string.enter_the_code_again),
-            onClick = requestOnAgainCode,
+        Actions(
+            textFirstBtn = R.string.btn_next,
+            textSecondBtn = R.string.enter_the_code_again,
+            onCLickFirstBtn = openFillOutForm,
+            onCLickSecondBtn = requestOnAgainCode,
             enable = !isCooldownActive
         )
     }
