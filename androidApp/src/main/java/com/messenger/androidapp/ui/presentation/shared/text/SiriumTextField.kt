@@ -148,6 +148,7 @@ fun MessageTextField(
                     SiriumIconButton(
                         icon = R.drawable.ic_send,
                         padding = 10.dp,
+                        sizeIcon = 12.dp,
                         onClick = onSendMessage
                     )
                 }
@@ -168,7 +169,9 @@ fun SiriumIconButton(
     onClick: () -> Unit,
     shape: Shape = CircleShape,
     backColor: Color = siriumColors.material.primary,
-    padding: Dp
+    padding: Dp,
+    tint: Color = Color.Unspecified,
+    sizeIcon: Dp = 20.dp
 ) {
     Box(
         modifier = modifier
@@ -185,8 +188,10 @@ fun SiriumIconButton(
         Icon(
             imageVector = ImageVector.vectorResource(icon),
             contentDescription = null,
-            tint = Color.Unspecified,
-            modifier = Modifier.padding(padding)
+            tint = tint,
+            modifier = Modifier
+                .padding(padding)
+                .size(sizeIcon)
         )
     }
 }

@@ -11,28 +11,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.messenger.androidapp.ui.theme.siriumColors
 
 @Composable
 fun SiriumIcon(
     modifier: Modifier = Modifier,
-    icon: Int
+    icon: Int,
+    tint: Color = Color.Unspecified,
+    sizeIcon: Dp = 48.dp,
+    paddingTop: Dp = 24.dp,
+    paddingStart: Dp = 24.dp,
+    paddingEnd: Dp = 24.dp,
+    backColor: Color = siriumColors.textSecondary,
+    paddingBottom: Dp = 24.dp,
 ) {
     Box(
         modifier = modifier
             .background(
-                color = siriumColors.material.primary,
+                color = backColor,
                 shape = CircleShape
             )
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(icon),
             contentDescription = null,
-            tint = Color.Unspecified,
+            tint = tint,
             modifier = Modifier
-                .padding(24.dp)
-                .size(48.dp)
+                .padding(start = paddingStart, end = paddingEnd, top = paddingTop, bottom =paddingBottom)
+                .size(sizeIcon)
         )
     }
 }
