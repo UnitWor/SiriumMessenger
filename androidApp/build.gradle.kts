@@ -55,6 +55,7 @@ android {
 dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.35.0-alpha")
 
     implementation(libs.accompanist.permissions)
     implementation(libs.liquid)

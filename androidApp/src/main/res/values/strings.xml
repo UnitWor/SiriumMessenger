@@ -42,6 +42,8 @@
     <string name="btn_settings">Настроить</string>
     <string name="title_customize">Настройка</string>
     <string name="subtitle_customize">Хотите настроить свои вкусы для лучшего подбора рекомендаций?</string>
+    <string name="title_customize_recommendations">Настройте свои рекомендации</string>,
+    <string name="subtitle_customize_recommendations">Выберите свои интересы</string>
     
     <!--  Other Strings  -->
     <string name="btn_next">Продолжить</string>

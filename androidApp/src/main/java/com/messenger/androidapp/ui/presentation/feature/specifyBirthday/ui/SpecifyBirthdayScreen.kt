@@ -35,7 +35,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.messenger.androidapp.R
+import com.messenger.androidapp.ui.presentation.approutes.AppRoutes
 import com.messenger.androidapp.ui.presentation.feature.customize.ui.Actions
 import com.messenger.androidapp.ui.presentation.feature.secureCode.ui.TitleAndSubTitle
 import com.messenger.androidapp.ui.theme.siriumColors
@@ -49,21 +52,26 @@ private interface SpecifyBirthdayScreen {
 @Composable
 private fun PreviewSpecifyBirthday() {
     SpecifyBirthday(
-        openCustomizeScreen = {},
-        onSkipBirthday = {}
+        rememberNavController(),
+        siriumColors.material.onPrimary
     )
 }
 
 @Composable
-fun SpecifyBirthdayScreen() {
-
+fun SpecifyBirthdayScreen(
+    navController: NavHostController,
+    contentColor: Color
+) {
+    SpecifyBirthday(
+        navController = navController,
+        contentColor = contentColor
+    )
 }
 
 @Composable
 fun SpecifyBirthday(
-    modifier: Modifier = Modifier,
-    openCustomizeScreen: () -> Unit,
-    onSkipBirthday: () -> Unit,
+    navController: NavHostController,
+    contentColor: Color
 ) {
     var date by remember { mutableStateOf("") }
     val focusRequester = remember { FocusRequester() }
@@ -72,12 +80,15 @@ fun SpecifyBirthday(
         focusRequester.requestFocus()
     }
 
-    Box(
-        modifier = modifier.fillMaxSize(),
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(contentColor),
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
         Content(
             modifier = Modifier
-                .align(Alignment.Center),
+                .padding(vertical = 141.5.dp),
             date = date,
             onDateChanged = {raw ->
                 val filtered = raw.filter { it.isDigit() }.take(8)
@@ -89,12 +100,11 @@ fun SpecifyBirthday(
         )
         Actions(
             modifier = Modifier
-                .align(Alignment.BottomCenter)
                 .padding(horizontal = 24.dp, vertical = 27.5.dp),
             textFirstBtn = R.string.btn_next,
             textSecondBtn = R.string.btn_skip,
-            onCLickFirstBtn = openCustomizeScreen,
-            onCLickSecondBtn = onSkipBirthday
+            onCLickFirstBtn = {navController.navigate(AppRoutes.CUSTOMIZE)},
+            onCLickSecondBtn = {navController.navigate(AppRoutes.CUSTOMIZE)}
         )
     }
 }
@@ -115,7 +125,9 @@ private fun Content(
         TitleAndSubTitle(
             title = R.string.title_birthday,
             subtitle = R.string.subtitle_birthday,
-            icon = R.drawable.ic_gift
+            icon = R.drawable.ic_gift,
+            visibleIcon = true,
+            modifierSubtitle = Modifier.padding(horizontal = 47.dp)
         )
         BasicTextField(
             value = date,
@@ -176,7 +188,7 @@ private fun DigitCell(
     onClick: () -> Unit
 ) {
     val background by animateColorAsState(
-        targetValue = if (isActive) Color(0xFFE0E7FF) else Color(0xFFF3F4F6),
+        targetValue = if (isActive) siriumColors.backSecondary3 else Color(0xFFF7F9FA),
         animationSpec = tween(300),
     )
 

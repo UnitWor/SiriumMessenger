@@ -38,7 +38,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.messenger.androidapp.R
+import com.messenger.androidapp.ui.presentation.approutes.AppRoutes
 import com.messenger.androidapp.ui.presentation.feature.customize.ui.Actions
 import com.messenger.androidapp.ui.presentation.shared.button.SiriumBtn
 import com.messenger.androidapp.ui.presentation.shared.icon.SiriumIcon
@@ -50,14 +53,31 @@ import kotlinx.coroutines.delay
 private interface SecureCodeByPhoneSсreen {
 
 }
+
 @Preview
 @Composable
-fun SecureCodeByPhoneScreen() {
-    SecureCodeByPhone()
+private fun PreviewSecureCode() {
+    SecureCodeByPhone(
+        rememberNavController(),
+        siriumColors.material.onPrimary
+    )
+}
+@Composable
+fun SecureCodeByPhoneScreen(
+    navController: NavHostController,
+    contentColor: Color
+) {
+    SecureCodeByPhone(
+        navController = navController,
+        contentColor = contentColor
+    )
 }
 
 @Composable
-private fun SecureCodeByPhone() {
+private fun SecureCodeByPhone(
+    navController: NavHostController,
+    contentColor: Color
+) {
 
     var isError by remember { mutableStateOf(false) }
     var code by remember { mutableStateOf("") }
@@ -82,6 +102,7 @@ private fun SecureCodeByPhone() {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(contentColor)
             .imePadding(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -128,7 +149,7 @@ private fun SecureCodeByPhone() {
             }
         )
         ActionAndTime(
-            openFillOutForm = {},
+            openFillOutForm = {navController.navigate(AppRoutes.FILL_OUT_FORM)},
             requestOnAgainCode = {
                 code = ""
                 isError = false
@@ -159,22 +180,26 @@ private fun Content(
 @Composable
 fun TitleAndSubTitle(
     modifier: Modifier = Modifier,
+    modifierSubtitle: Modifier = Modifier,
     title: Int,
     subtitle: Int,
     icon: Int = R.drawable.ic_checkmark,
     verticalPadding: Dp = 12.dp,
     visibleIcon: Boolean = false,
+    textAlign: TextAlign = TextAlign.Center,
+    horizAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     visibleSubtitle: Boolean = true
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = horizAlignment,
         verticalArrangement = Arrangement.spacedBy(verticalPadding)
     ) {
         if (visibleIcon){
             SiriumIcon(
-                icon = icon
+                icon = icon,
+                backColor = siriumColors.material.primary
             )
         }
 
@@ -182,14 +207,15 @@ fun TitleAndSubTitle(
             text = stringResource(title),
             color = siriumColors.material.onSecondary,
             style = siriumTypography.material.headlineSmall,
-            textAlign = TextAlign.Center
+            textAlign = textAlign
         )
         if (visibleSubtitle) {
             Text(
                 text = stringResource(subtitle),
                 color = siriumColors.textSecondary,
                 style = siriumTypography.material.bodySmall,
-                textAlign = TextAlign.Center
+                textAlign = textAlign,
+                modifier = modifierSubtitle
             )
         }
     }

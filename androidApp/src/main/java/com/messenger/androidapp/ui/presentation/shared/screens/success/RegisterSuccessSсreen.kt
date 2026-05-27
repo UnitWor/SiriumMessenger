@@ -1,5 +1,6 @@
 package com.messenger.androidapp.ui.presentation.shared.screens.success
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,32 +26,37 @@ import com.messenger.androidapp.ui.theme.siriumTypography
 
 @Composable
 fun RegisterSuccessScreen(
-    modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    contentColor: Color
 ) {
-//    Content(
-//        modifier = modifier,
-//        openMainScreen = {navController.navigate(AppRoutes.OTHER)}
-//    )
+    Content(
+        openMainScreen = {navController.navigate(AppRoutes.OTHER)},
+        contentColor = contentColor
+    )
 }
 
 @Preview
 @Composable
 private fun PreviewRegisterSuccess() {
-    Content() { }
+    Content(
+        contentColor = siriumColors.material.onPrimary,
+        openMainScreen = {}
+    )
 }
 
 @Composable
 private fun Content(
-    modifier: Modifier = Modifier,
-    openMainScreen: () -> Unit
+    openMainScreen: () -> Unit,
+    contentColor: Color
 ) {
-    Box(
-        modifier = modifier
+    Column(
+        modifier = Modifier
             .fillMaxSize()
+            .background(contentColor),
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
         TitleAndSubTitle(
-            modifier = Modifier.align(Alignment.Center),
+            modifier = Modifier.padding(vertical = 260.dp),
             title = R.string.everything_is_ready,
             visibleSubtitle = false,
             subtitle = 0,
@@ -62,8 +69,7 @@ private fun Content(
             isFilledBtn = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .padding(vertical = 11.5.dp, horizontal = 24.dp)
+                .padding(vertical = 16.5.dp, horizontal = 24.dp)
         )
     }
 }

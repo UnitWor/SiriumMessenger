@@ -43,7 +43,8 @@ val LightSiriumColorScheme = SiriumColorScheme(
     backSecondary3 = LightSiriumColor.backSecondary3,
     textSecondary = LightSiriumColor.textSecondary,
     sky2 = LightSiriumColor.sky2,
-    green = LightSiriumColor.green
+    green = LightSiriumColor.green,
+    sky4 = LightSiriumColor.sky4
 )
 
 val DarkSiriumColorScheme = SiriumColorScheme(
@@ -52,7 +53,8 @@ val DarkSiriumColorScheme = SiriumColorScheme(
     backSecondary3 = DarkSiriumColor.backSecondary3,
     textSecondary = DarkSiriumColor.textSecondary,
     sky2 = DarkSiriumColor.sky2,
-    green = DarkSiriumColor.green
+    green = DarkSiriumColor.green,
+    sky4 = LightSiriumColor.sky4
 )
 
 val LocalSiriumColorScheme = staticCompositionLocalOf { LightSiriumColorScheme }

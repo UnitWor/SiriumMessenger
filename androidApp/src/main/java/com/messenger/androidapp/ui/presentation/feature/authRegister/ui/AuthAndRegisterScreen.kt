@@ -35,7 +35,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.messenger.androidapp.R
+import com.messenger.androidapp.ui.presentation.approutes.AppRoutes
 import com.messenger.androidapp.ui.presentation.shared.button.SiriumBtn
 import com.messenger.androidapp.ui.presentation.shared.segmentControl.SiriumSegmentControl
 import com.messenger.androidapp.ui.presentation.shared.text.PasswordTextField
@@ -47,22 +49,29 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun AuthAndRegisterScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    contentColor: Color
 ) {
     AuthAndRegister(
-        modifier = modifier
+        modifier = modifier,
+        navController = navController,
+        contentColor = contentColor
     )
 }
 
 @Composable
 private fun AuthAndRegister(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    contentColor: Color
 ) {
     var selectedIndex by remember { mutableIntStateOf(0) }
     val authAndRegister = listOf(AuthAndRegister.AUTH, AuthAndRegister.REGISTER)
     Column(
         modifier = modifier
             .fillMaxSize()
+            .background(contentColor)
     ) {
         LogoAuthAndRegister(
             authAndRegister = authAndRegister,
@@ -73,8 +82,8 @@ private fun AuthAndRegister(
             selectedIndex = selectedIndex,
             onSelectedIndex = { selectedIndex = it },
             onLogInGmail = {},
-            openMainScreen = {},
-            openSecureCode = {}
+            openMainScreen = {navController.navigate(AppRoutes.OTHER)},
+            openSecureCode = {navController.navigate(AppRoutes.SECURE_CODE)}
         )
     }
 }

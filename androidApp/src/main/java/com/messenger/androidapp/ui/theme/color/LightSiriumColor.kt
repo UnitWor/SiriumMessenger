@@ -10,6 +10,7 @@ object LightSiriumColor {
     val textPrimary = Color(0xFF404040)
     val textSecondary = Color(0xFFA3A3A3)
     val backPrimary = Color(0xFFF7F9FA)
+    val sky4 = Color(0xFFF2F4F5)
     val backSecondary = Color(0xFFE3E5E5)
     val backSecondary3 = Color(0xFFEEF2FF)
     val backSecondary4 = Color(0xFF171717)

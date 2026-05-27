@@ -1,5 +1,6 @@
 package com.messenger.androidapp.ui.presentation.feature.fillOutForm.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,7 +28,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.messenger.androidapp.R
+import com.messenger.androidapp.ui.presentation.approutes.AppRoutes
 import com.messenger.androidapp.ui.presentation.shared.button.SiriumBtn
 import com.messenger.androidapp.ui.presentation.shared.button.SiriumCheckBox
 import com.messenger.androidapp.ui.presentation.shared.text.SiriumTextField
@@ -36,15 +40,30 @@ import com.messenger.androidapp.ui.theme.siriumColors
 import com.messenger.androidapp.ui.theme.siriumTypography
 import com.messenger.androidapp.ui.theme.typography.montserrat
 
-@Composable
-fun FillOutFormScreen(
-    modifier: Modifier = Modifier
-) {
-    FillOutForm()
-}
 @Preview
 @Composable
-fun FillOutForm() {
+private fun PreviewFillOutForm() {
+    FillOutForm(
+        rememberNavController(),
+        siriumColors.material.onPrimary
+    )
+}
+
+@Composable
+fun FillOutFormScreen(
+    navController: NavHostController,
+    contentColor: Color
+) {
+    FillOutForm(
+        navController = navController,
+        contentColor = contentColor
+    )
+}
+@Composable
+fun FillOutForm(
+    navController: NavHostController,
+    contentColor: Color
+) {
     var isSelectedCheckBox by remember { mutableStateOf(false) }
     var name by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
@@ -53,12 +72,13 @@ fun FillOutForm() {
 
     Column(
         modifier = Modifier
+            .fillMaxSize()
+            .background(contentColor)
             .padding(
                 top = 16.5.dp,
                 start = 24.dp,
                 end = 24.dp
-            )
-            .fillMaxSize(),
+            ),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Content(
@@ -81,7 +101,7 @@ fun FillOutForm() {
             onPrivacyClick = {},
             openSpecifyBirthday = {
                 if (isSelectedCheckBox){
-
+                    navController.navigate(AppRoutes.SPECIFY_BIRTHDAY)
                 }
             },
             onCheck = {

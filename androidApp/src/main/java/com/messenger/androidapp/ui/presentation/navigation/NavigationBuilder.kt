@@ -11,10 +11,17 @@ import androidx.navigation.compose.composable
 import com.messenger.androidapp.ui.presentation.approutes.AppRoutes
 import com.messenger.androidapp.ui.presentation.feature.authRegister.ui.AuthAndRegisterScreen
 import com.messenger.androidapp.ui.presentation.feature.customize.ui.CustomizeScreen
+import com.messenger.androidapp.ui.presentation.feature.customize.ui.recommendations.CustomizeRecommendationScreen
 import com.messenger.androidapp.ui.presentation.feature.fillOutForm.ui.FillOutForm
 import com.messenger.androidapp.ui.presentation.feature.fillOutForm.ui.FillOutFormScreen
+import com.messenger.androidapp.ui.presentation.feature.main.ui.MainScreen
+import com.messenger.androidapp.ui.presentation.feature.post.PostScreen
 import com.messenger.androidapp.ui.presentation.feature.secureCode.ui.SecureCodeByPhoneScreen
+import com.messenger.androidapp.ui.presentation.feature.specifyBirthday.ui.SpecifyBirthday
+import com.messenger.androidapp.ui.presentation.feature.specifyBirthday.ui.SpecifyBirthdayScreen
 import com.messenger.androidapp.ui.presentation.navigation.bottomBar.SiriumBottomBar
+import com.messenger.androidapp.ui.presentation.shared.screens.success.RegisterSuccessScreen
+import com.messenger.androidapp.ui.theme.siriumColors
 import io.github.fletchmckee.liquid.liquefiable
 import io.github.fletchmckee.liquid.rememberLiquidState
 
@@ -25,6 +32,7 @@ fun NavigationBuilder(
     visibleBottomBar: Boolean,
 ) {
     val liquidState = rememberLiquidState()
+    val contentColor = siriumColors.material.onPrimary
 
     Box(
         modifier = modifier
@@ -38,22 +46,40 @@ fun NavigationBuilder(
             startDestination = AppRoutes.AUTH_REGISTER,
         ){
             composable(AppRoutes.AUTH_REGISTER){
-                AuthAndRegisterScreen()
+                AuthAndRegisterScreen(
+                    navController = navController,
+                    contentColor = contentColor
+                )
             }
             composable(AppRoutes.CUSTOMIZE_RECOMMENDATION){
-
+                CustomizeRecommendationScreen(
+                    navController = navController,
+                    contentColor = contentColor
+                )
             }
             composable(AppRoutes.CUSTOMIZE){
-                CustomizeScreen()
+                CustomizeScreen(
+                    navController = navController,
+                    contentColor = contentColor
+                )
             }
             composable(AppRoutes.SECURE_CODE){
-                SecureCodeByPhoneScreen()
+                SecureCodeByPhoneScreen(
+                    navController = navController,
+                    contentColor = contentColor
+                )
             }
             composable(AppRoutes.FILL_OUT_FORM){
-                FillOutFormScreen()
+                FillOutFormScreen(
+                    navController = navController,
+                    contentColor = contentColor
+                )
             }
             composable(AppRoutes.SPECIFY_BIRTHDAY){
-
+                SpecifyBirthdayScreen(
+                    navController = navController,
+                    contentColor = contentColor
+                )
             }
             composable(AppRoutes.PROFILE){
 
@@ -66,6 +92,23 @@ fun NavigationBuilder(
             }
             composable(AppRoutes.MESSAGE){
 
+            }
+            composable(AppRoutes.POST){
+                PostScreen(
+                    contentColor = contentColor
+                )
+            }
+            composable(AppRoutes.OTHER){
+                MainScreen(
+                    navController = navController,
+                    contentColor = contentColor
+                )
+            }
+            composable(AppRoutes.SUCCESS){
+                RegisterSuccessScreen(
+                    navController = navController,
+                    contentColor = contentColor
+                )
             }
         }
         if (visibleBottomBar){

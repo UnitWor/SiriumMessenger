@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -268,10 +269,12 @@ fun TextFieldWithLabel(
     modifierTextField: Modifier = Modifier,
     text: String,
     enabled: Boolean = true,
+    singleLine: Boolean = true,
     placeholder: String,
     keybOptions: KeyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words),
     onTextFieldChange: (String) -> Unit,
-    label: String
+    label: String,
+    decorationModifier: Modifier = Modifier,
 ) {
     LabelAndContent(
         modifier = modifier.fillMaxWidth(),
@@ -284,7 +287,8 @@ fun TextFieldWithLabel(
             keybOptions = keybOptions,
             onTextFieldChange = onTextFieldChange,
             placeholder = placeholder,
-            singleLine = true,
+            decorationModifier = decorationModifier,
+            singleLine = singleLine,
         )
     }
 }
@@ -334,11 +338,12 @@ fun SiriumTextField(
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
     trailingIcon: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
-    onTextFieldChange: (String) -> Unit
+    onTextFieldChange: (String) -> Unit,
+    decorationModifier: Modifier = Modifier,
 ) {
 
     val backgroundColor = if (isError) siriumColors.material.error.copy(0.2f)
-    else if(text.isNotEmpty()) siriumColors.backSecondary3
+    else if(text.isNotEmpty() && placeholder.isEmpty()) siriumColors.backSecondary3
     else siriumColors.material.background
 
     CustomTextField(
@@ -363,6 +368,7 @@ fun SiriumTextField(
         keybAction = keybAction,
         transformation = transformation,
         maxLines = maxLines,
+        decorationModifier = decorationModifier,
         trailingIcon = trailingIcon,
         leadingIcon = leadingIcon,
         onTextFieldChange = onTextFieldChange
@@ -382,7 +388,7 @@ fun CustomTextField(
     arrangementSpacer: Dp = 16.dp,
     singleLine: Boolean = false,
     readOnly: Boolean = false,
-    boxColor: Color = siriumColors.material.background,
+    boxColor: Color = siriumColors.material.error,
     boxShape: Shape = RoundedCornerShape(16.dp),
     fontWeight: FontWeight = FontWeight.Normal,
     placeholder: String = "",
@@ -394,7 +400,8 @@ fun CustomTextField(
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
     trailingIcon: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
-    onTextFieldChange: (String) -> Unit
+    onTextFieldChange: (String) -> Unit,
+    decorationModifier: Modifier = Modifier,
 ) {
 
     val backColor by animateColorAsState(
@@ -427,6 +434,7 @@ fun CustomTextField(
             placeholder = placeholder,
             stylePlaceholder = stylePlaceholder,
             font = font,
+            decorationModifier = decorationModifier,
             keyboardOptions = keybOptions,
             keyboardAction = keybAction,
             transformation = transformation,
@@ -438,6 +446,7 @@ fun CustomTextField(
 @Composable
 fun CustomBasicTextField(
     modifier: Modifier = Modifier,
+    decorationModifier: Modifier = Modifier,
     text: String,
     onTextFieldChange: (String) -> Unit,
     enabled: Boolean = true,
@@ -450,7 +459,8 @@ fun CustomBasicTextField(
     font: Int = R.font.montserrat_regular,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardAction: KeyboardActions = KeyboardActions.Default,
-    transformation: VisualTransformation = VisualTransformation.None
+    transformation: VisualTransformation = VisualTransformation.None,
+    contentAlignment: Alignment = Alignment.TopStart
 ) {
     BasicTextField(
         modifier = modifier,
@@ -471,12 +481,17 @@ fun CustomBasicTextField(
         maxLines = maxLines,
         cursorBrush = SolidColor(siriumColors.material.primary),
         decorationBox = { innerTextField ->
-            if (text.isEmpty()) {
-                Text(
-                    text = placeholder,
-                    color = siriumColors.textSecondary,
-                    style = stylePlaceholder
-                )
+            Box(
+                modifier = decorationModifier,
+                contentAlignment = contentAlignment
+            ) {
+                if (text.isEmpty()) {
+                    Text(
+                        text = placeholder,
+                        color = siriumColors.textSecondary,
+                        style = stylePlaceholder
+                    )
+                }
             }
             innerTextField()
         }

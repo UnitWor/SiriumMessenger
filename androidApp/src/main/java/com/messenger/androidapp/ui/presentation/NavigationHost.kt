@@ -1,6 +1,8 @@
 package com.messenger.androidapp.ui.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -9,6 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.messenger.androidapp.ui.presentation.approutes.AppRoutes
 import com.messenger.androidapp.ui.presentation.navigation.NavigationBuilder
+import com.messenger.androidapp.ui.theme.siriumColors
 
 @Composable
 fun NavigationHost(
@@ -32,7 +35,7 @@ fun NavigationHost(
     val visibleBottomBar = current in routes
 
     ScaffoldHost(
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
     ) { paddingValues ->
         NavigationBuilder(
             navController = navController,

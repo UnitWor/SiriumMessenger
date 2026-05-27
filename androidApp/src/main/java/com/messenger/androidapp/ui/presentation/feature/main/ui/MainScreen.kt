@@ -1,5 +1,7 @@
 package com.messenger.androidapp.ui.presentation.feature.main.ui
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,16 +26,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
 import com.messenger.androidapp.R
 import com.messenger.androidapp.ui.presentation.shared.icon.SiriumIcon
@@ -46,30 +55,44 @@ data class MainScreen(
     val id: Int,
     val photos: List<String>,
     val userName: String,
+    var like: Boolean,
     val userLastName: String,
     val description: String,
 )
 
+private interface Main {
+    fun openPostScreen() {}
+}
+
 @Preview
 @Composable
 private fun PreviewMain() {
-    MainScreen()
+    MainScreen(
+        rememberNavController(),
+        siriumColors.material.onPrimary
+    )
 }
 
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    navController: NavHostController,
+    contentColor: Color
+) {
     Content(
-        onLike = {}
+        onLike = {_, _ ->},
+        contentColor = contentColor
     )
 }
 @Composable
 fun Content(
-    onLike: (Int) -> Unit
+    onLike: (Int, Boolean) -> Unit,
+    contentColor: Color
 ) {
 
     val cards = listOf(
         MainScreen(
             id = 1,
+            like = false,
             photos = listOf("https://i.pinimg.com/originals/e8/82/67/e88267a222de3b152d6aced055fc84a7.jpg"),
             userName = "Иван",
             userLastName = "Дружинин",
@@ -77,6 +100,7 @@ fun Content(
         ),
         MainScreen(
             id = 2,
+            like = false,
             photos = listOf("https://i.pinimg.com/originals/e8/82/67/e88267a222de3b152d6aced055fc84a7.jpg"),
             userName = "Иван",
             userLastName = "Дружинин",
@@ -84,6 +108,7 @@ fun Content(
         ),
         MainScreen(
             id = 3,
+            like = true,
             photos = listOf("https://i.pinimg.com/originals/e8/82/67/e88267a222de3b152d6aced055fc84a7.jpg"),
             userName = "Иван",
             userLastName = "Дружинин",
@@ -91,6 +116,23 @@ fun Content(
         ),
         MainScreen(
             id = 4,
+            like = false,
+            photos = listOf("https://i.pinimg.com/originals/e8/82/67/e88267a222de3b152d6aced055fc84a7.jpg","https://i.pinimg.com/originals/e8/82/67/e88267a222de3b152d6aced055fc84a7.jpg"),
+            userName = "Иван",
+            userLastName = "Дружинин",
+            description = "Это просто жесть... ds,gnklgjskljglsdjlkgsj когда это видишь вживую то это так захватывает твою душу"
+        ),
+        MainScreen(
+            id = 5,
+            like = true,
+            photos = listOf("https://i.pinimg.com/originals/e8/82/67/e88267a222de3b152d6aced055fc84a7.jpg"),
+            userName = "Иван",
+            userLastName = "Дружинин",
+            description = "Это просто жесть... когда это видишь вживую то это так захватывает твою душу"
+        ),
+        MainScreen(
+            id = 6,
+            like = false,
             photos = listOf("https://i.pinimg.com/originals/e8/82/67/e88267a222de3b152d6aced055fc84a7.jpg","https://i.pinimg.com/originals/e8/82/67/e88267a222de3b152d6aced055fc84a7.jpg"),
             userName = "Иван",
             userLastName = "Дружинин",
@@ -99,7 +141,9 @@ fun Content(
     )
 
     LazyVerticalStaggeredGrid(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(contentColor),
         columns = StaggeredGridCells.Fixed(2),
         contentPadding = PaddingValues(
             start = 19.dp,
@@ -115,9 +159,11 @@ fun Content(
                 photos = card.photos,
                 userName = card.userName,
                 userLastName = card.userLastName,
-                onLike = { onLike(card.id) },
+                onLike = { onLike(card.id, card.like) },
                 description = card.description,
-                openPostScreen = {  }
+                openPostScreen = { },
+                isSelectedLike = card.like,
+                onRepost = { }
             )
         }
     }
@@ -127,10 +173,12 @@ fun Content(
 fun Card(
     modifier: Modifier = Modifier,
     photos: List<String>,
+    isSelectedLike: Boolean,
     userName: String,
     userLastName: String,
     description: String,
     onLike: () -> Unit,
+    onRepost: () -> Unit,
     openPostScreen: () -> Unit
 ) {
     Column(
@@ -152,7 +200,9 @@ fun Card(
             description = description
         )
         ActionCard(
-            onLike = onLike
+            isSelectedLike = isSelectedLike,
+            onLike = onLike,
+            onRepost = onRepost
         )
     }
 }
@@ -177,17 +227,9 @@ fun PhotoCard(
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
             .height(152.dp)
     ) {
-        if (photos.size > 1) {
-            CountPhotos(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(top = 9.dp, end = 11.dp),
-                photos = photos,
-                index = pagerState.currentPage
-            )
-        }
         if (photos.size in 0..1){
             Photo(
                 photo = photos.firstOrNull().orEmpty()
@@ -199,19 +241,28 @@ fun PhotoCard(
                 onPress = { isIndicatorVisible.value = true }
             )
         }
+        if (photos.size > 1) {
+            CountPhotos(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = 9.dp, end = 11.dp),
+                photos = photos,
+                index = pagerState.currentPage
+            )
+        }
     }
 }
 
 @Composable
-fun Photo(
-    modifier: Modifier = Modifier,
+fun BoxScope.Photo(
     photo: String
 ) {
     AsyncImage(
         model = photo,
         contentDescription = null,
         contentScale = ContentScale.Crop,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .matchParentSize()
     )
 }
 
@@ -291,26 +342,34 @@ fun UserContent(
 fun User(
     modifier: Modifier = Modifier,
     userName: String,
-    userLastName: String
+    sizeIcon: Dp = 16.dp,
+    paddingStart: Dp = 4.dp,
+    paddingEnd: Dp = 4.dp,
+    paddingBottom: Dp = 4.dp,
+    paddingTop: Dp = 4.dp,
+    userLastName: String,
+    colorText: Color = siriumColors.material.onSecondary,
+    styleText: TextStyle = siriumTypography.material.labelSmall,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(4.dp)
 ) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
+        horizontalArrangement = horizontalArrangement
     ) {
         SiriumIcon(
             icon = R.drawable.ic_profile,
             tint = Color.White,
-            sizeIcon = 16.dp,
-            paddingEnd = 4.dp,
-            paddingTop = 4.dp,
-            paddingStart = 4.dp,
-            paddingBottom = 4.dp
+            sizeIcon = sizeIcon,
+            paddingEnd = paddingEnd,
+            paddingTop = paddingTop,
+            paddingStart = paddingStart,
+            paddingBottom = paddingBottom
         )
         Text(
             text = "$userName $userLastName",
-            color = siriumColors.material.onSecondary,
-            style = siriumTypography.material.labelSmall
+            color = colorText,
+            style = styleText
         )
     }
 }
@@ -318,8 +377,15 @@ fun User(
 @Composable
 fun ActionCard(
     modifier: Modifier = Modifier,
-    onLike: () -> Unit
+    isSelectedLike: Boolean,
+    onLike: () -> Unit,
+    onRepost: () -> Unit
 ) {
+
+    val tint by animateColorAsState(
+        targetValue = if (isSelectedLike) siriumColors.material.error else Color.Unspecified,
+        animationSpec = tween(300)
+    )
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -331,15 +397,16 @@ fun ActionCard(
          SiriumIconButton(
              onClick = onLike,
              icon = R.drawable.ic_like,
-             backColor = siriumColors.material.background,
+             backColor = siriumColors.sky4,
              padding = 3.dp,
+             tint = tint,
              sizeIcon = 16.dp,
          )
         SiriumIconButton(
-            onClick = onLike,
+            onClick = onRepost,
             icon = R.drawable.ic_repost,
             padding = 5.dp,
-            backColor = siriumColors.material.background,
+            backColor = siriumColors.sky4,
             sizeIcon = 12.dp,
         )
     }

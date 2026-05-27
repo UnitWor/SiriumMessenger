@@ -5,5 +5,8 @@
         <item name="windowSplashScreenAnimatedIcon">@drawable/avd_sirium</item>
         <item name="windowSplashScreenAnimationDuration">1000</item>
         <item name="postSplashScreenTheme">@style/Theme.Sirium.NoActionBar</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 </resources>

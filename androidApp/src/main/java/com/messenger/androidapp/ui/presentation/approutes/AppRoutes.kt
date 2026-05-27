@@ -12,4 +12,6 @@ object AppRoutes {
     const val SETTING = "setting"
     const val SEARCH = "search"
     const val OTHER = "other"
+    const val POST = "post"
+    const val SUCCESS = "success"
 }
