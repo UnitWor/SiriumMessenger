@@ -10,6 +10,7 @@ object AppRoutes {
     const val PROFILE = "profile"
     const val MESSAGE = "message"
     const val SETTING = "setting"
+    const val NOTIFICATIONS_AND_SOUND = "notifications_and_sound"
     const val SEARCH = "search"
     const val OTHER = "other"
     const val POST = "post"

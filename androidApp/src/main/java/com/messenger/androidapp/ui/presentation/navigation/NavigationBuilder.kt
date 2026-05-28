@@ -17,6 +17,8 @@ import com.messenger.androidapp.ui.presentation.feature.fillOutForm.ui.FillOutFo
 import com.messenger.androidapp.ui.presentation.feature.main.ui.MainScreen
 import com.messenger.androidapp.ui.presentation.feature.post.PostScreen
 import com.messenger.androidapp.ui.presentation.feature.secureCode.ui.SecureCodeByPhoneScreen
+import com.messenger.androidapp.ui.presentation.feature.settings.ui.SettingsScreen
+import com.messenger.androidapp.ui.presentation.feature.settings.ui.notification.NotificationAndSoundScreen
 import com.messenger.androidapp.ui.presentation.feature.specifyBirthday.ui.SpecifyBirthday
 import com.messenger.androidapp.ui.presentation.feature.specifyBirthday.ui.SpecifyBirthdayScreen
 import com.messenger.androidapp.ui.presentation.navigation.bottomBar.SiriumBottomBar
@@ -85,7 +87,10 @@ fun NavigationBuilder(
 
             }
             composable(AppRoutes.SETTING){
-
+                SettingsScreen(
+                    contentColor = contentColor,
+                    navController = navController
+                )
             }
             composable(AppRoutes.SEARCH){
 
@@ -106,6 +111,12 @@ fun NavigationBuilder(
             }
             composable(AppRoutes.SUCCESS){
                 RegisterSuccessScreen(
+                    navController = navController,
+                    contentColor = contentColor
+                )
+            }
+            composable(AppRoutes.NOTIFICATIONS_AND_SOUND){
+                NotificationAndSoundScreen(
                     navController = navController,
                     contentColor = contentColor
                 )

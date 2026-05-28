@@ -47,4 +47,27 @@
     
     <!--  Other Strings  -->
     <string name="btn_next">Продолжить</string>
+
+    <!--  Settings  -->
+    <string name="basic_settings">Основные настройки</string>
+    <string name="description_settings">Настройте основной функционал приложения, так же задайте любой вопрос, а мы ответим на него!</string>
+    <string name="notification_and_sound">Уведомления и звук</string>
+    <string name="decoration">оформление</string>
+    <string name="battery">Энергосбережение</string>
+    <string name="question">Задать вопрос</string>
+    <string name="faq">FAQ</string>
+    <string name="privacy">Приватность</string>
+    <string name="call">Звонки</string>
+    <string name="personal_chats">Личные чаты</string>
+    <string name="groups">Группы</string>
+    <string name="channels">Каналы</string>
+    <string name="btn_back">Назад</string>
+    <string name="message_notification">Уведомления о сообщениях</string>
+    <string name="app_notification">Уведомления в приложении</string>
+    <string name="the_tag_on_the_icon">Счетчик на иконке</string>
+    <string name="count_message">Число сообщений</string>
+    <string name="sound">Звук</string>
+    <string name="vibration">Вибрация</string>
+    <string name="show_text">Показывать текст</string>
+    <string name="reset_settings">Сбросить настройки</string>
 </resources>

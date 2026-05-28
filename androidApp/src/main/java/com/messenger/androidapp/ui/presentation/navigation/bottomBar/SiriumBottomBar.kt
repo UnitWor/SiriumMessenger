@@ -58,15 +58,12 @@ private fun PrevBottomBar() {
                 .fillMaxSize()
                 .background(siriumColors.material.background)
         ) {
-            // 1. Фоновый контент (список чатов)
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    // Помечаем фон, как источник для эффекта стекла
                     .liquefiable(liquidState)
             ) {
                 items(20) { index ->
-                    // Карточка чата в стиле Telegram [citation:2][citation:8]
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -80,7 +77,6 @@ private fun PrevBottomBar() {
                             modifier = Modifier.padding(12.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            // Аватар
                             Box(
                                 modifier = Modifier
                                     .size(52.dp)
@@ -94,7 +90,6 @@ private fun PrevBottomBar() {
                                 )
                             }
                             Spacer(modifier = Modifier.width(12.dp))
-                            // Информация о чате
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
                                     text = "Иван Дружинин",
@@ -108,7 +103,6 @@ private fun PrevBottomBar() {
                                     overflow = TextOverflow.Ellipsis
                                 )
                             }
-                            // Время и счетчик
                             Column(horizontalAlignment = Alignment.End) {
                                 Text(
                                     text = "1/2",
@@ -134,7 +128,6 @@ private fun PrevBottomBar() {
                 }
             }
 
-            // 2. BottomBar с эффектом Liquid Glass
             SiriumBottomBar(
                 modifier = Modifier.align(Alignment.BottomCenter),
                 liquidState = liquidState,
@@ -172,7 +165,7 @@ fun SiriumBottomBar(
             route = AppRoutes.OTHER,
         ),
     )
-
+    val white = siriumColors.material.onPrimary.copy(0.5f)
 
     Row(
         modifier = modifier
@@ -183,7 +176,7 @@ fun SiriumBottomBar(
                 refraction = 0.35f
                 edge = 0.1f
                 curve = 0.55f
-                tint = Color.White.copy(0.5f)
+                tint = white
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -222,7 +215,7 @@ fun BottomBarItem(
 ) {
     val color by animateColorAsState(
         targetValue = if (isSelected) siriumColors.material.primary else Color.Unspecified,
-        animationSpec = tween(400)
+        animationSpec = tween(500)
     )
 
     Box(
