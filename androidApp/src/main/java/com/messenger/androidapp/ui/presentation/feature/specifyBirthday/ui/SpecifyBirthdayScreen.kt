@@ -3,7 +3,6 @@ package com.messenger.androidapp.ui.presentation.feature.specifyBirthday.ui
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,7 +28,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -147,7 +145,6 @@ private fun Content(
                         DigitCell(
                             digit = date.getOrNull(i),
                             isActive = (i == date.length),
-                            onClick = { focusRequester.requestFocus() }
                         )
                     }
 
@@ -157,7 +154,6 @@ private fun Content(
                         DigitCell(
                             digit = date.getOrNull(i + 2),
                             isActive = (i + 2 == date.length),
-                            onClick = { focusRequester.requestFocus() }
                         )
                     }
 
@@ -167,7 +163,6 @@ private fun Content(
                         DigitCell(
                             digit = date.getOrNull(i + 4),
                             isActive = (i + 4 == date.length),
-                            onClick = { focusRequester.requestFocus() }
                         )
                     }
                 }
@@ -185,7 +180,6 @@ private fun Content(
 private fun DigitCell(
     digit: Char?,
     isActive: Boolean,
-    onClick: () -> Unit
 ) {
     val background by animateColorAsState(
         targetValue = if (isActive) siriumColors.backSecondary3 else Color(0xFFF7F9FA),
@@ -196,8 +190,7 @@ private fun DigitCell(
         modifier = Modifier
             .size(31.dp, 43.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(background)
-            .clickable(onClick = onClick),
+            .background(background),
         contentAlignment = Alignment.Center
     ) {
         Text(

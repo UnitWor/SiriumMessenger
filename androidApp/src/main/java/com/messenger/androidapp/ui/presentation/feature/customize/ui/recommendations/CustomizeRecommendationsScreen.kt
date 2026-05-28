@@ -7,10 +7,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -72,46 +74,61 @@ private fun Content(
 
     val recommendations = remember {
         mutableStateListOf(
-        CustomizeRecommendations(
-            id = 1,
-            recommendation = "dfgddhdfhdf",
-            isSelected = false
-        ),
-        CustomizeRecommendations(
-            id = 2,
-            recommendation = "dfgddhdsdfhgdf",
-            isSelected = false
-        ),
-        CustomizeRecommendations(
-            id = 3,
-            recommendation = "dfgddhdfhdfgdf",
-            isSelected = false
-        ),
-        CustomizeRecommendations(
-            id = 4,
-            recommendation = "dfgddhdfhdfhfhgfhfhfhf",
-            isSelected = false
-        ),
-        CustomizeRecommendations(
-            id = 5,
-            recommendation = "dfgddhdfhdfhfghfh",
-            isSelected = false
-        ),
-        CustomizeRecommendations(
-            id = 6,
-            recommendation = "dfgddhdfhdfdhdh",
-            isSelected = false
-        ),
-        CustomizeRecommendations(
-            id = 7,
-            recommendation = "dfgddhdfhdfdfhdh",
-            isSelected = false
-        ),
-        CustomizeRecommendations(
-            id = 8,
-            recommendation = "dfgddhdfhdfdsgdfgd",
-            isSelected = false
-        ),
+            CustomizeRecommendations(
+                id = 1,
+                recommendation = "dfgddhdfhdf",
+                isSelected = false
+            ),
+            CustomizeRecommendations(
+                id = 2,
+                recommendation = "dfgddhdsdfhgdf",
+                isSelected = false
+            ),
+            CustomizeRecommendations(
+                id = 3,
+                recommendation = "dfgddhdfhdfgdf",
+                isSelected = false
+            ),
+            CustomizeRecommendations(
+                id = 4,
+                recommendation = "dfgddhdfhdfhfhgfhfhfhf",
+                isSelected = false
+            ),
+            CustomizeRecommendations(
+                id = 5,
+                recommendation = "dfgddhdfhdfhfghfh",
+                isSelected = false
+            ),
+            CustomizeRecommendations(
+                id = 6,
+                recommendation = "dfgddhdfhdfdhdh",
+                isSelected = false
+            ),
+            CustomizeRecommendations(
+                id = 7,
+                recommendation = "dfgddhdfhdfdfhdh",
+                isSelected = false
+            ),
+            CustomizeRecommendations(
+                id = 8,
+                recommendation = "dfgddhdfhdfdsgdfgd",
+                isSelected = false
+            ),
+            CustomizeRecommendations(
+                id = 9,
+                recommendation = "dfgddhdfhdfdhdh",
+                isSelected = false
+            ),
+            CustomizeRecommendations(
+                id = 10,
+                recommendation = "dfgddhdfhdfdfhdh",
+                isSelected = false
+            ),
+            CustomizeRecommendations(
+                id = 11,
+                recommendation = "dfgddhdfhdfdsgdfgd",
+                isSelected = false
+            ),
         )
     }
 
@@ -124,7 +141,6 @@ private fun Content(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp, vertical = 21.5.dp),
-            verticalArrangement = Arrangement.spacedBy(32.dp),
         ) {
             TitleAndSubTitle(
                 title = R.string.title_customize_recommendations,
@@ -133,18 +149,22 @@ private fun Content(
                 horizAlignment = Alignment.Start
             )
             LazyColumn(
+                contentPadding = PaddingValues(top = 32.dp,bottom = 70.dp),
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(
                     items = recommendations,
                     key = { it.id }
-                ){ recommendation ->
+                ) { recommendation ->
                     val index = recommendations.indexOf(recommendation)
                     Recommendation(
                         isSelected = recommendation.isSelected,
                         recommendation = recommendation.recommendation,
-                        onSelected = { recommendations[index] = recommendation.copy(isSelected = !recommendation.isSelected) }
+                        onSelected = {
+                            recommendations[index] =
+                                recommendation.copy(isSelected = !recommendation.isSelected)
+                        }
                     )
                 }
             }
@@ -190,7 +210,9 @@ fun Recommendation(
             .padding(
                 horizontal = 24.dp,
                 vertical = 21.5.dp
-            )
+            ),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = recommendation,
@@ -201,7 +223,8 @@ fun Recommendation(
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_checkmark),
                 contentDescription = null,
-                tint = siriumColors.material.primary
+                tint = siriumColors.material.primary,
+                modifier = Modifier.size(16.dp)
             )
         }
     }

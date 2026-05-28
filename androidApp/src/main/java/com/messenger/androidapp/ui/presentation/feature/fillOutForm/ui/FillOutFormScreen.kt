@@ -126,7 +126,7 @@ private fun Content(
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.Start
     ) {
         Text(
             text = stringResource(R.string.fill_out_form),

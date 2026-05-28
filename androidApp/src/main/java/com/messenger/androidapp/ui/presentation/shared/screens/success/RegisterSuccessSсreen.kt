@@ -2,14 +2,11 @@ package com.messenger.androidapp.ui.presentation.shared.screens.success
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -20,9 +17,7 @@ import com.messenger.androidapp.R
 import com.messenger.androidapp.ui.presentation.approutes.AppRoutes
 import com.messenger.androidapp.ui.presentation.feature.secureCode.ui.TitleAndSubTitle
 import com.messenger.androidapp.ui.presentation.shared.button.SiriumBtn
-import com.messenger.androidapp.ui.presentation.shared.icon.SiriumIcon
 import com.messenger.androidapp.ui.theme.siriumColors
-import com.messenger.androidapp.ui.theme.siriumTypography
 
 @Composable
 fun RegisterSuccessScreen(

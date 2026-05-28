@@ -133,6 +133,7 @@ fun PostPhoto(
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .height(198.dp)
             .clip(RoundedCornerShape(16.dp))
     ){
         Photo(
