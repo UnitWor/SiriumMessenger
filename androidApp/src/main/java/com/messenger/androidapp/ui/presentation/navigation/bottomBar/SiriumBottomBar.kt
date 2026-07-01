@@ -214,7 +214,7 @@ fun BottomBarItem(
     onClick: () -> Unit
 ) {
     val color by animateColorAsState(
-        targetValue = if (isSelected) siriumColors.material.primary else Color.Unspecified,
+        targetValue = if (isSelected) siriumColors.material.primary else Color(0xFF525252),
         animationSpec = tween(500)
     )
 
